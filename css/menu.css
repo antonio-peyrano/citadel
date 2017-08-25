@@ -1,0 +1,348 @@
+@CHARSET "ISO-8859-1";
+
+	div.infousuario
+        {            
+  		    position: absolute;        
+            }
+    
+    .profileUser
+        {
+            color: white; /*Color de texto*/
+        	font-weight:bold; /*Estilo aplicado*/
+            }
+            
+    .contenedor 
+        {
+            position: relative; /*Respecto al cuerpo*/
+            height: inherit; /*Altura respecto al contenedor padre*/
+            width: 100%; /*Anchura respecto al contenedor padre*/
+            left: 240px; /*Separacion del margen izquierdo respecto al padre*/
+            /*
+             * Conjunto de efectos de transicion.
+             */
+            -webkit-transition:  left 0.4s ease-in-out;
+            -moz-transition:  left 0.4s ease-in-out;
+            -ms-transition:  left 0.4s ease-in-out;
+            -o-transition:  left 0.4s ease-in-out;
+            transition:  left 0.4s ease-in-out;
+            }
+
+    .contenedor.abrir-menu-lateral
+        {
+            left: 0px; /*Separacion del margen izquierdo respecto al contenedor*/
+            }
+
+	.contenedor-principal
+        {
+            position: relative; /*Posicion respecto al cuerpo*/
+            width: 100%; /*Anchura respecto al cuerpo*/
+            height: inherit; /*Altura respecto al cuerpo*/
+            padding: 10px; /*Espaciado del contenedor*/
+            background: #F6CE71; /*Color de fondo del contenedor principal*/
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;            
+            }
+		
+	.contenedor-principal .content
+        {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding-left: 60px;
+            width: 100%;
+            height:inherit;
+            }
+
+	.contenedor-principal .content h1
+        {
+            font-weight: 100;
+            }
+		
+	.contenedor-principal .content p
+        {
+            width: 100%;
+            line-height: 120%;
+            }
+                        
+	.contenedor-principal #menu-lateral-toggle
+        {
+            background: #F3621E;
+            border-radius: 10px;
+            display: block;
+            position: relative;
+            padding: 10px 7px;
+            float: left;
+            }
+		
+	.contenedor-principal #menu-lateral-toggle .bar
+        {
+            display: block;
+            width: 18px;
+            margin-bottom: 3px;
+            height: 2px;
+            background-color: #F3B71E;
+            border-radius: 1px;   
+            }
+
+	.contenedor-principal #menu-lateral-toggle .bar:last-child
+        {
+            margin-bottom: 0;   
+            }
+                        
+	.area-deslizar
+        {
+            /*
+             * Este contenedor es el area sobre la cual el usuario utilizara la opcion
+             * de gesto de arrastre en dispositivos moviles.
+             */
+            position: absolute; /*Respecto al cuerpo*/
+            width: 50px; /*Anchura respecto al contenedor padre*/
+            height: inherit; /*Altura respecto al contenedor padre*/
+            left: 0; /*Separacion del margen izquierdo respecto al padre*/
+            top: 0; /*Separacion del margen superior respecto al padre*/
+            background: rgba(76, 175, 80, 0.0); /*Color de fondo del area de arrastre*/
+            z-index: 0; /*Orden respecto a la profundidad sobre los otros elementos*/
+            }
+
+    #menu-lateral 
+        {
+        	/*
+        	 * Se aplica formato sobre el elemento cuyo ID corresponda al nombre de
+        	 * menu-lateral.
+        	 */
+            background: #FF8000; /*Color de fondo del contenedor de menu*/
+            position: absolute; /*Posicion respecto al cuerpo*/
+            width: 240px; /*Anchura respecto al cuerpo*/
+            height: inherit; /*Altura respecto al cuerpo*/
+            left: -240px; /*Separacion respecto al margen izquierdo, un valor negativo indica que no estara visible*/
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            overflow: scroll;
+            }
+
+	#menu-lateral ul
+        {
+            margin: 0;/*Margen en los cuatro cuadrantes para el elemento unsorted list (UL)*/
+            padding: 0; /*Espaciado en los cuatro cuadrantes*/
+            list-style: none; /*Se elimina la marca de enumerado*/
+            }
+		
+	#menu-lateral ul li
+        {
+            margin: 0; /*Margen en los cuatro cuadrantes para el elemento list item (LI)*/
+            }
+		
+	#menu-lateral ul li a
+        {
+            padding: 15px 20px; /*Espaciado de etiqueta de item*/
+            font-size: 16px; /*Tamanio de texto de item*/
+            font-weight: 100; /*Proporcion de texto*/
+            color: white; /*Color de texto*/		
+            text-decoration: none; /*Elementos de decoracion del texto*/
+            display: block; /*Mostrar en bloque*/
+            border-bottom: 1px solid #FBF9F8; /*Borde inferior [Grosor, Estilo, Color]*/
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-01
+        {		
+            background: #FF8000;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-01:hover
+        {		
+            background: #FE9A2E;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-01
+        {		
+            background: #FE9A2E;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-01:hover
+        {		
+            background: #FF8000;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-02
+        {	
+        	background: #EEA107;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-02:hover
+        {		
+            background: #FFBF00;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-02
+        {	
+        	background: #FFBF00;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-02:hover
+        {		
+            background: #EEA107;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+                        
+	#item-cabecera-03
+        {		
+            background: #B40404;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-03:hover
+        {	
+        	background: #DF0101;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-03
+        {		
+            background: #DF0101;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-03:hover
+        {	
+        	background: #B40404;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+                        
+	#item-cabecera-04
+        {		
+            background: #088A08;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-04:hover
+        {	
+        	background: #04B404;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-04
+        {		
+            background: #04B404;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cuerpo-04:hover
+        {	
+        	background: #088A08;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-05
+        {		
+            background: #006E00;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-05:hover
+        {	
+        	background: #44AA18;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-06
+        {		
+            background: #0101DF;
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }
+
+	#item-cabecera-06:hover
+        {	
+        	background: #013ADF;            
+            -webkit-transition:  background 0.3s ease-in-out;
+            -moz-transition:  background 0.3s ease-in-out;
+            -ms-transition:  background 0.3s ease-in-out;
+            -o-transition:  background 0.3s ease-in-out;
+            transition:  background 0.3s ease-in-out;
+            }            

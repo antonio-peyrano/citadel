@@ -1,0 +1,305 @@
+@CHARSET "ISO-8859-1";
+
+/*****************************************************************************************************************************
+ * Diseño para el contenedor data-grid en el contexto de cosulta de datos para su visualización e interaccion con el usuario *
+ *****************************************************************************************************************************/
+	.dgMainDiv
+		{
+			width:98%;
+  			vertical-align: middle;
+  			display: inline-block;
+  			white-space: normal;	
+			}
+		
+	.dgError
+		{
+			margin-top:10px;
+			margin-left:10px;
+			font-family:Verdana, Arial, Helvetica, sans-serif;
+			font-size:12px;
+			color:#000000;
+			background-color:#EFEFEF;
+			border:5px double #C0C0C0;
+			padding:5px;
+			}
+
+	.dgTable
+		{
+			font-family:Verdana, Arial, Helvetica, sans-serif;
+			font-size:95%;
+			width:100%;
+			background-color:#FFFFFF;
+			}
+
+	.dgTitles
+		{
+    		background-color:#444;
+    		color:#444;
+    		border-bottom:1px solid #444;
+    		background:-webkit-gradient(
+        		linear,
+        		left bottom,
+        		left top,
+        		color-stop(0.39, rgb(189,189,189)),
+        		color-stop(0.7, rgb(224,224,224))
+        		);
+    		background:-moz-linear-gradient(
+        		center bottom,
+        		rgb(189,189,189) 39%,
+        		rgb(224,224,224) 70%
+        		);
+    		text-shadow:1px 1px 1px #fff;	
+			}
+			
+	.dgHeader
+		{
+    		padding:15px;
+    		color:#fff;
+    		text-shadow:1px 1px 1px #216292;
+    		border:1px solid #DBA901;
+    		border-bottom:3px solid #FFBF00;
+    		background-color:#DF7401;
+    		background:-webkit-gradient(
+        		linear,
+        		left bottom,
+        		left top,
+        		color-stop(0.02, rgb(212,73,55)),
+        		color-stop(0.51, rgb(176,77,19)),
+        		color-stop(0.87, rgb(217,144,41))
+       	 		);
+    		background: -moz-linear-gradient(
+        		center bottom,
+        		rgb(212,73,55) 2%,
+        		rgb(176,77,19) 51%,
+        		rgb(217,144,41) 87%
+        		);
+    		-webkit-border-top-left-radius:5px;
+    		-webkit-border-top-right-radius:5px;
+    		-moz-border-radius:5px 5px 0px 0px;
+    		border-top-left-radius:5px;
+    		border-top-right-radius:5px;
+			}
+			
+	.dgFooter
+		{
+			font-size:9px;
+			background-color:#EFEFEF;
+			color:#000000;
+			}
+
+	.dgPagRow
+		{
+			font-size:9px;
+    		padding:8px;
+    		color:#fff;
+    		text-shadow:1px 1px 1px #216292;
+    		border:1px solid #DBA901;
+    		border-bottom:3px solid #FFBF00;
+    		background-color:#DF7401;
+    		background:-webkit-gradient(
+        		linear,
+        		left bottom,
+        		left top,
+        		color-stop(0.02, rgb(212,73,55)),
+        		color-stop(0.51, rgb(176,77,19)),
+        		color-stop(0.87, rgb(217,144,41))
+        		);
+    		background: -moz-linear-gradient(
+        		center bottom,
+        		rgb(212,73,55) 2%,
+        		rgb(176,77,19) 51%,
+        		rgb(217,144,41) 87%
+        		);
+    		-webkit-border-bottom-left-radius:5px;
+    		-webkit-border-bottom-right-radius:5px;
+    		-moz-border-radius:5px 5px 0px 0px;
+    		border-bottom-left-radius:5px;
+    		border-bottom-right-radius:5px;
+			}
+
+	.dgRownorm
+		{
+			font-size:100%;
+			border:1px solid #bfcacd;
+			border-left-color:#ffffff;
+			border-bottom-style:none;
+			}
+		
+	.dgRowalt
+		{
+			font-size:100%;
+			border:1px solid #bfcacd;
+			border-left-color:#ffffff;
+			border-bottom-style:none;
+			}
+
+	.dgRowsnormTR, .dgspnormRow
+		{
+			height:20px;
+			color:#000000;
+			background: #FFBF00;
+			-webkit-transition:  background 0.3s ease-in-out;
+    		-moz-transition:  background 0.3s ease-in-out;
+    		-ms-transition:  background 0.3s ease-in-out;
+    		-o-transition:  background 0.3s ease-in-out;
+    		transition:  background 0.3s ease-in-out;
+			}
+
+	.dgRowsnormTR:hover
+		{
+			background-color:#F7D358;
+			}
+
+	.dgRowsaltTR, .dgspaltRow
+		{
+			height:20px;
+			color:#000000;
+			background: #FF8000;
+			-webkit-transition:  background 0.3s ease-in-out;
+    		-moz-transition:  background 0.3s ease-in-out;
+    		-ms-transition:  background 0.3s ease-in-out;
+    		-o-transition:  background 0.3s ease-in-out;
+    		transition:  background 0.3s ease-in-out;
+			}
+
+	.dgRowsaltTR:hover
+		{
+			background-color:#DF7401;			
+			}
+
+	.dgspnormRow
+		{
+			font-weight:bold;
+			}
+
+	.dgspaltRow
+		{
+			font-weight:bold;
+			}
+			
+	.dgTotRowsTR
+		{
+    		background-color:#444;
+    		color:#444;
+    		border-bottom:1px solid #444;
+    		background:-webkit-gradient(
+        		linear,
+        		left bottom,
+        		left top,
+        		color-stop(0.39, rgb(189,189,189)),
+        		color-stop(0.7, rgb(224,224,224))
+        		);	
+    		background:-moz-linear-gradient(
+        		center bottom,
+        		rgb(189,189,189) 39%,
+        		rgb(224,224,224) 70%
+        		);
+   	 		text-shadow:1px 1px 1px #fff;
+			}
+
+	.dgRowsTot
+		{
+			border:1px solid #bfcacd;
+			border-left-color:#ffffff;
+			}
+			
+/********************************************************************************************************************
+ * Diseño para el contenedor data-grid bajo el contexto de operaciones de busquedas sobre los datos a mostrar en un *
+ * data-grid principal.                                                                                             *
+ ********************************************************************************************************************/
+
+	.queryTable
+		{
+			font-family:Verdana, Arial, Helvetica, sans-serif;
+			font-size:95%;			
+			width:auto;
+			background-color:#FFFFFF;
+			border: 1px solid #808080;
+			border-radius: 5px;
+			}
+
+	.queryTitles
+		{
+    		background-color:#444;
+    		color:#444;
+    		border-bottom:1px solid #444;
+    		background:-webkit-gradient(
+        		linear,
+        		left bottom,
+        		left top,
+        		color-stop(0.39, rgb(189,189,189)),
+        		color-stop(0.7, rgb(224,224,224))
+        		);
+    		background:-moz-linear-gradient(
+        		center bottom,
+        		rgb(189,189,189) 39%,
+        		rgb(224,224,224) 70%
+        		);
+    		text-shadow:1px 1px 1px #fff;	
+			}
+
+	.queryHeader
+		{
+    		padding:15px;
+    		color:#fff;
+    		text-shadow:1px 1px 1px #216292;
+    		border:1px solid #DBA901;
+    		border-bottom:3px solid #FFBF00;
+    		background-color:#DF7401;
+    		background:-webkit-gradient(
+        		linear,
+        		left bottom,
+        		left top,
+        		color-stop(0.02, rgb(212,73,55)),
+        		color-stop(0.51, rgb(176,77,19)),
+        		color-stop(0.87, rgb(217,144,41))
+       	 		);
+    		background: -moz-linear-gradient(
+        		center bottom,
+        		rgb(212,73,55) 2%,
+        		rgb(176,77,19) 51%,
+        		rgb(217,144,41) 87%
+        		);
+    		-webkit-border-top-left-radius:5px;
+    		-webkit-border-top-right-radius:5px;
+    		-moz-border-radius:5px 5px 0px 0px;
+    		border-top-left-radius:5px;
+    		border-top-right-radius:5px;
+			}
+			
+	.queryFooter
+		{
+			font-size:9px;
+			background-color:#EFEFEF;
+			color:#000000;
+			}
+
+	.queryRownorm
+		{
+			font-size:100%;
+			border:1px solid #808080;
+			border-left-color:#808080;
+			border-radius: 5px;			
+			}
+		
+	.queryRowalt
+		{
+			font-size:100%;
+			border:1px solid #808080;
+			border-left-color:#808080;
+			border-radius: 5px;
+			}
+
+	.queryRowsnormTR, .queryspnormRow
+		{
+			border: 1px solid #808080;
+			height:20px;
+			color:#000000;
+			background: #F7D358;
+			-webkit-transition:  background 0.3s ease-in-out;
+    		-moz-transition:  background 0.3s ease-in-out;
+    		-ms-transition:  background 0.3s ease-in-out;
+    		-o-transition:  background 0.3s ease-in-out;
+    		transition:  background 0.3s ease-in-out;
+			border-radius: 5px;
+			}			

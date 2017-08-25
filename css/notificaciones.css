@@ -1,0 +1,89 @@
+@CHARSET "ISO-8859-1";
+
+	.cnt-notificacion
+		{
+			width:100%; /*Anchura respecto al cuerpo*/
+			height:100%; /*Altura respecto al cuerpo*/
+        	padding:1px;
+        	background: rgba(255, 179, 0, .5);
+            overflow:auto;
+			background-image: url("../img/fondo.png"); /*Imagen de fondo para el contenedor de login*/
+			background-size: 1260px 920px; /*Tamaño para la imagen de fondo del contenedor de login*/
+			background-repeat: no-repeat; /*Condicional para repeticion del fondo*/
+			color:#000033; /*Color de texto del contenedor*/
+			text-align:center; /*Alineacion del texto en el contenedor*/
+			font-family: 'Arial',Helvetica Neue,Helvetica,sans-serif; /*Estilos de texto en el contenedor*/
+			font-size:25px; /*Tamanio de texto*/
+			font-weight:bold; /*Estilo del texto*/	
+			}
+
+    .notificacion
+        {
+            position: absolute;
+			margin: 0px auto;
+        	top:50%;
+        	left:50%;
+    		transform: translate(-50%, -50%);
+    		-webkit-transform: translate(-50%, -50%);        	
+			width: 400px;        				
+            background: #FF8000;        	
+			border-radius: 13px;
+			font-size: 15px;
+        	color: #ffffff;
+        	text-shadow: 0 1px gray;
+        	text-align:justify;        	
+			}
+
+    .cabecera-notificacion 
+        {
+        	display:inline-block;
+        	width:100%;
+			background-size: contain; 			
+    		background-color: #FFA200;
+			margin:0px auto;
+    		line-height: 50px;
+    		font-size: 15px;
+    		font-weight: bold;
+    		color: #ffffff;
+    		text-align: center;
+    		text-shadow: 0 1px gray;
+    		border-bottom: 1px solid #cfcfcf;
+    		border-radius: 12px 12px 0 0;
+    		@include linear-gradient(top, whiteffd, #eef2f5);
+    		@include box-shadow(0 1px #f5f5f5);
+  			}
+  			
+	.cuerpo-notificacion
+		{
+			display:inline-block;
+			position: relative;
+			margin: 12px 12px 12px 12px;
+			}
+			
+    .pie-notificacion 
+        {
+			position: relative;
+        	display:inline-block;
+        	width:100%;
+    		line-height: 80px;
+    		font-size: 15px;
+    		font-weight: bold;
+    		color: #ffffff;
+    		text-align: center;
+    		text-shadow: 0 1px gray;
+ 			background-size: contain; 			
+    		background-color: #FFA200;
+    		border-top: 1px solid #cfcfcf;
+    		border-radius: 0 0 12px 12px;
+    		@include linear-gradient(top, whiteffd, #eef2f5);
+    		@include box-shadow(0 1px #f5f5f5);
+  			}
+  			  			
+	.td-panel
+		{
+	    	font-size: 15px;
+    		font-weight: bold;
+    		color: #ffffff;
+    		text-align: left;
+    		text-shadow: 0 1px gray;
+			}

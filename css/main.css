@@ -1,0 +1,160 @@
+@CHARSET "ISO-8859-1";
+
+
+/* ************************************************************************************************
+ * main.css Autor: Ing. Jesus Antonio Peyrano Luna * 24/07/2017                                   *
+ * Descripcion: Este archivo contiene los estilos visuales para la interfas principal del sistema * 
+ **************************************************************************************************/
+
+	html
+		{
+			width:100%; /*Ajuste del ancho al total del display*/
+			height:100%; /*Ajuste de la altura al total del display*/
+			}
+		
+    body 
+        {
+			height:100%; /*Ajuste de la altura al total del display*/
+            margin: 0; /*Ajuste del margen al ancho total del display*/
+            overflow:auto; /*Se define el comportamiento del scroll al rebasar dimensiones*/
+            font: 13px/20px; /*Tamaño de visualizacion de la fuente*/
+            font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif, arial, helvetica;
+            color: #404040; /*Color de la fuente*/
+            font-weight: 100; /*Proporción del ancho del texto*/
+            background: #F6CE71; /*Color de fondo del cuerpo*/
+			}
+			
+    #escritorio
+        {
+            background-image: url("../img/logo_fondo.png"); /*Imagen de fondo para el contenedor de login*/
+            background-size: 64px 64px; /*Tamaño para la imagen de fondo del contenedor de login*/
+            background-repeat: repeat; /*Condicional para repetición del fondo*/
+            overflow:scroll;			            
+            }		
+    input
+        {
+            font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif;
+  			font-size: 14px;
+			}
+
+    input[type=text].inputform, select.inputform
+        {
+            font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif;
+  			font-size: 14px;
+            margin: 5px;
+  			padding: 0 10px;
+  			height: 20px;
+  			color: #404040;
+  			background: white;
+  			border: 1px solid;
+  			border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+  			border-radius: 2px;
+  			outline: 5px solid #eff4f7;
+  			-moz-outline-radius: 3px; // Can we get this on WebKit please?
+  			@include box-shadow(inset 0 1px 3px rgba(black, .12));
+			&:focus {
+                        border-color: #7dc9e2;
+    					outline-color: #dceefc;
+    					outline-offset: 0; // WebKit sets this to -1 by default
+  						}        	        	
+			}
+						
+    input[type=submit], [type=button]
+        {
+            padding: 0 18px;
+  			height: 29px;
+  			font-size: 12px;
+  			font-weight: bold;
+  			color: #527881;
+  			text-shadow: 0 1px #e3f1f1;
+			background: #cde5ef;
+			border: 1px solid;
+			border-color: #b4ccce #b3c0c8 #9eb9c2;
+			border-radius: 16px;
+			outline: 0;        	
+        	/*********************************************************************
+        	 *Declaracion de aspecto visual para firefox y navegadores heredados *        	 
+        	 *********************************************************************/
+			@include box-sizing(content-box);
+			@include linear-gradient(top, #edf5f8, #cde5ef);
+			@include box-shadow(inset 0 1px white, 0 1px 2px rgba(black, .15));
+            &:active {
+                        background: #cde5ef;
+    					border-color: #9eb9c2 #b3c0c8 #b4ccce;
+    					@include box-shadow(inset 0 0 3px rgba(black, .2));
+  						}
+            }
+
+    option
+        {
+            margin: 5px;
+  			padding: 0 10px;
+  			/*width: 200px;*/
+  			height: 34px;
+  			color: #404040;
+  			background: white;
+  			border: 1px solid;
+  			border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+  			border-radius: 2px;
+  			outline: 5px solid #eff4f7;
+  			-moz-outline-radius: 3px; // Can we get this on WebKit please?
+  			@include box-shadow(inset 0 1px 3px rgba(black, .12));
+            &:focus {
+                        border-color: #7dc9e2;
+    					outline-color: #dceefc;
+    					outline-offset: 0; // WebKit sets this to -1 by default
+  						}
+            }
+
+
+ /*************************************************************************************************
+  * Aspecto que tendran los controles de scroll bar al redimensionar los contenedores ajustando   *
+  * al overflow. Aplicable en Google Chrome y Chromium.                                           *
+  *************************************************************************************************/
+	::-webkit-scrollbar 
+		{
+      		width: 15px;
+			}
+
+	::-webkit-scrollbar-track 
+		{
+      		background-color: #EEA107;
+			}
+
+	::-webkit-scrollbar-thumb
+		{
+      		background-color: #FF8000;
+			}
+
+	::-webkit-scrollbar-button 
+		{
+      		background-color: #FF8000;
+			}
+
+	::-webkit-scrollbar-corner
+		{
+      		background-color: #FE9A2E;
+			}
+
+ /*******************************************
+  * Control del aspecto del control CAPTCHA *
+  *******************************************/
+
+	.cnt-captcha
+		{
+			width:200px;
+			padding-bottom:12px;
+			border-radius: 15px;
+        	background: rgba(255, 255, 255, .5);			
+			color:#000033; /*Color de texto del contenedor*/
+			font-family: 'Arial',Helvetica Neue,Helvetica,sans-serif;/*Estilos de texto en el contenedor*/			
+			}
+
+    .captcha-controll
+        {
+        	display:inline-block;			
+			font-size: 15px;
+        	color: #ffffff;
+        	text-shadow: 0 1px gray;
+        	text-align:justify;														
+			}
