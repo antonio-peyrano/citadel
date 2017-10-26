@@ -23,6 +23,7 @@
             private $cntrlVar = 0;
             private $idSolicitud = NULL;
             private $idUsuario = NULL;
+            private $idEntidad = NULL;
             private $Folio = '';
             private $Asunto = '';
             private $Detalle = '';
@@ -45,6 +46,7 @@
                     if(isset($_GET['accion'])){$this->Accion = $_GET['accion'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['id'])){$this->idSolicitud = $_GET['id'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['idusuario'])){$this->idUsuario = $_GET['idusuario'];}else{$this->cntrlVar+=1;}
+                    if(isset($_GET['identidad'])){$this->idEntidad = $_GET['identidad'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['folio'])){$this->Folio = $_GET['folio'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['asunto'])){$this->Asunto = $_GET['asunto'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['detalle'])){$this->Detalle = $_GET['detalle'];}else{$this->cntrlVar+=1;}
@@ -95,13 +97,13 @@
                                     if($this->idSolicitud != NULL)
                                         {
                                             //EDICION DE REGISTRO                                    
-                                            $consulta = 'UPDATE opSolicitudes SET Folio=\''.$this->Folio.'\', Asunto=\''.$this->Asunto.'\', Detalle=\''.$this->Detalle.'\', idUsuario=\''.$this->idUsuario.'\', Status=\''.$this->Status.'\' WHERE idSolicitud='.$this->idSolicitud; //Se establece el modelo de consulta de datos.
+                                            $consulta = 'UPDATE opSolicitudes SET Folio=\''.$this->Folio.'\', Asunto=\''.$this->Asunto.'\', Detalle=\''.$this->Detalle.'\', idUsuario=\''.$this->idUsuario.'\', idEntidad=\''.$this->idEntidad.'\', Status=\''.$this->Status.'\' WHERE idSolicitud='.$this->idSolicitud; //Se establece el modelo de consulta de datos.
                                             $dsSolicitud = $objConexion->conectar($consulta); //Se ejecuta la consulta.                                        
                                             }
                                     else
                                         {
                                             //CREACION DE REGISTRO.                                    
-                                            $consulta = 'INSERT INTO opSolicitudes (Folio, Asunto, Detalle, idUsuario, fRegistro) VALUES ('.'\''.$this->Folio.'\',\''.$this->Asunto.'\', \''.$this->Detalle.'\', \''.$this->idUsuario.'\', \''.$this->fRegistro.'\')'; //Se establece el modelo de consulta de datos.
+                                            $consulta = 'INSERT INTO opSolicitudes (Folio, Asunto, Detalle, idUsuario, idEntidad, fRegistro) VALUES ('.'\''.$this->Folio.'\',\''.$this->Asunto.'\', \''.$this->Detalle.'\', \''.$this->idUsuario.'\', \''.$this->idEntidad.'\', \''.$this->fRegistro.'\')'; //Se establece el modelo de consulta de datos.
                                             $dsSolicitud = $objConexion -> conectar($consulta); //Se ejecuta la consulta.                    
                                             }                                                
                                     include_once($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/solicitudes/busSolicitudes.php");

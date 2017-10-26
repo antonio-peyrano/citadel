@@ -128,11 +128,11 @@
                     return $this->idSolicitud;
                     }
                                                                                                   
-            public function drawCBTipoFactor($Registro, $habilitador)
+            public function drawCBEstadoSolicitud($Registro, $habilitador)
                 {
                     /*
                      * Esta funcion crea el codigo HTML que corresponde al combobox de
-                     * tipo de factor.
+                     * estado de solicitud.
                      */
                      $HTML = '<tr><td class="td-panel" width="100px">Status: </td><td><select name= "Status" id= "Status" value= "-1"'.$habilitador.'>
                                     <option value=-1>Seleccione</option>';
@@ -142,6 +142,7 @@
                             $HTML .= '<option value=0 selected>Registrada</option>';
                             $HTML .= '<option value=1>En proceso</option>';
                             $HTML .= '<option value=2>Procesada</option>';
+                            $HTML .= '<option value=3>Cancelada</option>';
                             }
                     else
                         {
@@ -149,7 +150,8 @@
                                 {
                                     $HTML .= '<option value=0>Registrada</option>';
                                     $HTML .= '<option value=1 selected>En proceso</option>';
-                                    $HTML .= '<option value=2>Procesada</option>';                                    
+                                    $HTML .= '<option value=2>Procesada</option>';
+                                    $HTML .= '<option value=3>Cancelada</option>';
                                     }
                             else
                                 {
@@ -157,7 +159,25 @@
                                         {
                                             $HTML .= '<option value=0>Registrada</option>';
                                             $HTML .= '<option value=1>En proceso</option>';
-                                            $HTML .= '<option value=2 selected>Procesada</option>';                                            
+                                            $HTML .= '<option value=2 selected>Procesada</option>';
+                                            $HTML .= '<option value=3>Cancelada</option>';
+                                            }
+                                    else
+                                        {
+                                            if($Registro['Status'] == '3')
+                                                {
+                                                    $HTML .= '<option value=0>Registrada</option>';
+                                                    $HTML .= '<option value=1>En proceso</option>';
+                                                    $HTML .= '<option value=2>Procesada</option>';
+                                                    $HTML .= '<option value=3 selected>Cancelada</option>';
+                                                    }
+                                            else
+                                                {
+                                                    $HTML .= '<option value=0>Registrada</option>';
+                                                    $HTML .= '<option value=1>En proceso</option>';
+                                                    $HTML .= '<option value=2>Procesada</option>';
+                                                    $HTML .= '<option value=3>Cancelada</option>';
+                                                    }
                                             }
                                     }
                             }
@@ -180,7 +200,7 @@
                             }
                     if($_SESSION['nivel'] == 'Administrador')
                         {
-                            return $this->drawCBTipoFactor($Registro, $habilitador);
+                            return $this->drawCBEstadoSolicitud($Registro, $habilitador);
                             }
                     else
                         {
@@ -188,7 +208,41 @@
                             return $HTML;
                             }        
                     }
-                                        
+            
+            public function drawTREntidad($Registro, $habilitador)
+                {
+                    /*
+                     * Esta funcion crea el codigo HTML que corresponde al combobox de
+                     * entidad.
+                     */
+                    $objSolicitudes = new solicitudes();
+                        
+                        
+                    $HTML = '<tr><td class="td-panel" width="100px">Entidad: </td><td><select name= "idEntidad" id= "idEntidad" value= "-1"'.$habilitador.'>
+                                <option value=-1>Seleccione</option>';
+                        
+                    $subconsulta = $objSolicitudes->getEntidades();
+                    $RegEntidades = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
+                                                
+                    while($RegEntidades)
+                        {
+                            if($Registro['idEntidad'] == $RegEntidades['idEntidad'])
+                                {
+                                    //Si el item fue previamente marcado, se selecciona en el codigo.
+                                    $HTML .= '<option value='.$RegEntidades['idEntidad'].' selected>'.$RegEntidades['Entidad'].'</option>';
+                                    }
+                            else
+                                {
+                                    //En caso contrario se escribe la secuencia base de codigo.
+                                    $HTML .= '<option value='.$RegEntidades['idEntidad'].'>'.$RegEntidades['Entidad'].'</option>';
+                                    }
+                            $RegEntidades = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
+                            }
+                        
+                    $HTML .= '</select></td></tr>';
+                    return $HTML;
+                    }
+                    
             public function captchaDraw()
                 {
                     /*
@@ -261,10 +315,11 @@
                                         <div id="cuerpo" class="cuerpo-operativo">
                                             <table>
                                                 <tr><td class="td-panel" width="100px">Folio:</td>'.$this->calcularFolio($RegSolicitud).'<td class="td-panel" width="100px">Fecha de Registro:</td>'.$this->getfRegistro($RegSolicitud).'</tr>
-                                                <tr><td class="td-panel" width="100px">Asunto:</td><td colspan= "3"><input type= "text" class= "inputform" id= "Asunto" required= "required" '.$habCampos.' value= "'.$RegSolicitud['Asunto'].'"></td></tr>
+                                                <tr><td class="td-panel" width="100px" colspan= "3">Asunto: <input type= "text" class= "inputform" id= "Asunto" required= "required" '.$habCampos.' value= "'.$RegSolicitud['Asunto'].'"></td></tr>
                                                 <tr><th colspan= "4" class="td-panel" width="100px">Detalle</th></tr>
-                                                <tr><td colspan= "4" class= "dgRowsnormTR"><center><textarea name="Detalle" id="Detalle" cols="80" rows="8"'.$habCampos.'>'.$this->saltosLineaRev($RegSolicitud['Detalle']).'</textarea></center></td></tr>'
-                                                .$this->drawTRStatus($RegSolicitud, $habCampos).
+                                                <tr><td colspan= "4"><center><textarea name="Detalle" id="Detalle" cols="80" rows="8"'.$habCampos.'>'.$this->saltosLineaRev($RegSolicitud['Detalle']).'</textarea></center></td></tr>'
+                                                .$this->drawTREntidad($RegSolicitud, $habCampos)
+                                                .$this->drawTRStatus($RegSolicitud, $habCampos).                                                
                                                 '<tr><td class="td-panel" width="100px" colspan= "4"><center>Codigo de Verificacion'.$this->captchaDraw().'</center></td></tr>                                                                                        
                                             </table>
                                         </div>                                                    

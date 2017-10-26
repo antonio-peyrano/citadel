@@ -26,7 +26,7 @@
             private $fRegistro = "";
             private $Asunto = "";
             private $Detalle = "";
-            private $Consulta = 'SELECT idSolicitud, idUsuario, Folio, fRegistro AS Registro, Asunto, if(Status=0,"Registrada",if(Status=1,"En Proceso",if(Status=2,"Procesada","No definido"))) AS Status FROM opSolicitudes WHERE 1=1';
+            private $Consulta = 'SELECT idSolicitud, idUsuario, Folio, fRegistro AS Registro, Asunto, if(Status=0,"Registrada",if(Status=1,"En Proceso",if(Status=2,"Procesada",if(Status=3,"Cancelada","No definido")))) AS Status FROM opSolicitudes WHERE 1=1';
             //FIN DE DECLARACION DE ATRIBUTOS APLICABLES AL MODULO catSolicitudes.php
             
             //ATRIBUTOS APLICABLES AL MODULO opSolicitudes.php
@@ -178,13 +178,26 @@
                     global $username, $password, $servername, $dbname;
                     
                     $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
-                    $Consulta= 'SELECT idSolicitud, idUsuario, Folio, Asunto, Detalle, fRegistro, Status FROM opSolicitudes WHERE idSolicitud='.$idRegistro; //Se establece el modelo de consulta de datos.
+                    $Consulta= 'SELECT idSolicitud, idUsuario, idEntidad, Folio, Asunto, Detalle, fRegistro, Status FROM opSolicitudes WHERE idSolicitud='.$idRegistro; //Se establece el modelo de consulta de datos.
                     $dsUsuario = $objConexion -> conectar($Consulta); //Se ejecuta la consulta.
                     
                     $RegSolicitud = @mysqli_fetch_array($dsUsuario,MYSQLI_ASSOC);//Llamada a la funcion de carga de registro de usuario.
                     return $RegSolicitud;
-                    }                    
+                    }
                     
+            public function getEntidades()
+                {
+                    /*
+                     * Esta funcion obtiene la tupla de registros sobre el catalogo de entidades.
+                     */
+                    global $username, $password, $servername, $dbname;
+                        
+                    $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $Consulta= 'SELECT idEntidad, Entidad FROM catEntidades WHERE Status=0'; //Se establece el modelo de consulta de datos.
+                    $dsEntidades = $objConexion -> conectar($Consulta); //Se ejecuta la consulta.
+                    return $dsEntidades;
+                    }
+            
             public function controlBotones($Width, $Height, $cntView, $idUsuario)
                 {
                     /*
@@ -221,7 +234,7 @@
                                      */
                                     if($cntView == 0)
                                         {
-                                            //Para el caso de creación de nuevo registro.
+                                            //Para el caso de creaciï¿½n de nuevo registro.
                                             $botonera .= $btnSubirArchivo_V.$btnGuardar_V.$btnVolver_V;
                                             }
                                     else
@@ -257,7 +270,7 @@
                                             else
                                                 {
                                                     //En el caso que no sea un registro previamente creado por el usuario
-                                                    //se deja la restricción de solo visualizar.
+                                                    //se deja la restricciï¿½n de solo visualizar.
                                                     $botonera .= $btnVolver_V;
                                                     }
                                             }

@@ -34,6 +34,12 @@
                 	error = error+1;			            	
             		}
 
+            if(document.getElementById("idEntidad").value.toString() == "-1")
+        		{
+            		//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+            		error = error+1;			            	
+        			}
+            
             if(document.getElementById("captcha_code").value.toString() == "")
         		{
             		//En caso de no ocurrir un error de validación, se asigna el valor de paso.
@@ -65,6 +71,7 @@
 			document.getElementById('Asunto').disabled = false;
 			document.getElementById('Detalle').disabled = false;
 			document.getElementById('Status').disabled = false;
+			document.getElementById('idEntidad').disabled = false;
 			document.getElementById('sol_Guardar').style.display="block";
 			document.getElementById('sol_Adjuntar').style.display="block";
 			document.getElementById('sol_Borrar').style.display="none";
@@ -316,7 +323,7 @@
     				            			if(result)
     				            				{
     				            					//EL USUARIO DECIDE ALMACENAR LOS DATOS.
-    				            					guardarSolicitud('./php/backend/dal/solicitudes/dalSolicitudes.class.php','?id='+document.getElementById('idSolicitud').value.toString()+'&folio='+document.getElementById('Folio').value.toString()+'&asunto='+document.getElementById('Asunto').value.toString()+'&detalle='+document.getElementById('Detalle').value.toString()+'&fregistro='+document.getElementById('fRegistro').value.toString()+'&idusuario='+document.getElementById('idUsuario').value.toString()+'&captcha='+document.getElementById('captcha_code').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
+    				            					guardarSolicitud('./php/backend/dal/solicitudes/dalSolicitudes.class.php','?id='+document.getElementById('idSolicitud').value.toString()+'&folio='+document.getElementById('Folio').value.toString()+'&asunto='+document.getElementById('Asunto').value.toString()+'&detalle='+document.getElementById('Detalle').value.toString()+'&fregistro='+document.getElementById('fRegistro').value.toString()+'&idusuario='+document.getElementById('idUsuario').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&captcha='+document.getElementById('captcha_code').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
     				            					}			            					
     				            			}
     				        		});			        		
