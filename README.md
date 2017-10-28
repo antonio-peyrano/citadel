@@ -1,3 +1,8 @@
-citadel
+Proyecto Citadel. Autor: Prof. Jesus Antonio Peyrano Luna.
 
-Es un software diseñado para cubrir las necesidades de gestión en materia de atención ciudadana para los niveles municipales. Este proyecto tiene como antecedente el Sistema Municipal Telefonico de Atención Ciudadana (SIMTAC 072)
+Micrositio-Citadel, es una herramienta de software enfocada al seguimiento y cumplimiento de las labores de atencion ciudadana para el orden de gobierno municipal.
+
+Facilitando las acciones de la ciudadania levantando reportes en tiempo real, con evidencia adjunta para ser canalizadas a las dependencias correspondientes. Optimizando las tareas de seguimiento en materia de mejora de la calidad de vida en la ciudad.
+
+El uso del presente codigo debe ser exclusivamente sin fines de lucro directo (comercialización del código fuente y derivados directos) y respetando los puntos contemplados en la GPL v3
+
