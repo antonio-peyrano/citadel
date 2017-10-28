@@ -118,6 +118,7 @@
                                 <script type="text/javascript" src="./js/entidades/entidades.js"></script>
                                 <script type="text/javascript" src="./js/usuarios/usuarios.js"></script>
                                 <script type="text/javascript" src="./js/clientes/clientes.js"></script>
+                                <script type="text/javascript" src="./js/utilidades/graficas.js"></script>
                                 <script type="text/javascript" src="./js/instrumentos/cedulas/cedulas.js"></script>
                                 <script type="text/javascript" src="./js/instrumentos/factores/factores.js"></script>
                                 <script type="text/javascript" src="./js/instrumentos/escalas/escalas.js"></script>
