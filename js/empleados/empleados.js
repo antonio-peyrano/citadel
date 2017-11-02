@@ -1,51 +1,87 @@
 /*********************************************************************************************
  * Este archivo de script contiene los comandos de ejecución para la interfaz de gestión del *
- * catálogo de solicitudes en el sistema.                                                    *
+ * catálogo de empleados en el sistema.                                                       *
  *********************************************************************************************/
 
-    function guardarSolicitud(url,parametro)
+    function guardarEmpleado(url,parametro)
         {
             /*
              * Esta función valida que los datos para ser almacenados en el registro sean correctos.
              */	
             var error= 0;
 		
-            if(document.getElementById("Folio").value.toString() == "")
+            if(document.getElementById("Paterno").value.toString() == "")
                 {
                     //En caso de no ocurrir un error de validación, se asigna el valor de paso.
                     error = error+1;			
                     }
 		
-            if(document.getElementById("Asunto").value.toString() == "")
+            if(document.getElementById("Materno").value.toString() == "")
                 {
                     //En caso de no ocurrir un error de validación, se asigna el valor de paso.
                     error = error+1;
                     }
 		
-            if(document.getElementById("Detalle").value.toString() == "")
+            if(document.getElementById("Nombre").value.toString() == "")
                 {
                     //En caso de no ocurrir un error de validación, se asigna el valor de paso.
                     error = error+1;			
                     }
-                        
-            if(document.getElementById("fRegistro").value.toString() == "")
+            
+            if(document.getElementById("curp").value.toString() == "")
+    			{
+        			//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+        			error = error+1;			            	
+    				}
+
+            if(document.getElementById("rfc").value.toString() == "")
+				{
+    				//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+    				error = error+1;			            	
+					}
+            
+            if(document.getElementById("Calle").value.toString() == "")
+				{
+    				//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+    				error = error+1;			            	
+					}
+            
+            if(document.getElementById("nExt").value.toString() == "")
+				{
+    				//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+    				error = error+1;			            	
+					}
+
+            if(document.getElementById("emp_cbidColonia").value.toString() == "")
+				{
+					//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+					error = error+1;			            	
+					}
+
+            if(document.getElementById("idEntidad").value.toString() == "-1")
+				{
+					//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+					error = error+1;			            	
+					}
+            
+            if(document.getElementById("fNacimiento").value.toString() == "")
             	{
                 	//En caso de no ocurrir un error de validación, se asigna el valor de paso.
                 	error = error+1;			            	
             		}
 
-            if(document.getElementById("idEntidad").value.toString() == "-1")
+            if(document.getElementById("telFijo").value.toString() == "")
         		{
             		//En caso de no ocurrir un error de validación, se asigna el valor de paso.
             		error = error+1;			            	
         			}
-            
-            if(document.getElementById("captcha_code").value.toString() == "")
-        		{
-            		//En caso de no ocurrir un error de validación, se asigna el valor de paso.
-            		error = error+1;			            	
-        			}
-            
+
+            if(document.getElementById("telCel").value.toString() == "")
+    			{
+        			//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+        			error = error+1;			            	
+    				}
+                                
             if(error > 0)
                 {
                     /*
@@ -58,24 +94,31 @@
                     /*
                      * En caso que la validación de campos sea satisfactoria.
                      */
-	    	   		parametro = parametro.replace(/\n/g,"<br>"); //Se cambian los saltos de linea por el tag <br>.
-                    cargar(url,parametro,'sandbox');		
+                    cargar(url,parametro,'sandbox');
                     }
             }
     
-    function habSolicitud()
+    function habEmpleado()
 		{
 			/*
-			 * Esta función habilita los controles del formulario de solicitud.
+			 * Esta función habilita los controles del formulario de empleado.
 			 */
-			document.getElementById('Asunto').disabled = false;
-			document.getElementById('Detalle').disabled = false;
-			document.getElementById('Status').disabled = false;
+			document.getElementById('Paterno').disabled = false;
+			document.getElementById('Materno').disabled = false;
+			document.getElementById('Nombre').disabled = false;
+			document.getElementById('fNacimiento').disabled = false;
+			document.getElementById('curp').disabled = false;
+			document.getElementById('rfc').disabled = false;
+			document.getElementById('Calle').disabled = false;
+			document.getElementById('nInt').disabled = false;
+			document.getElementById('nExt').disabled = false;
+			document.getElementById('emp_cbidColonia').disabled = false;
 			document.getElementById('idEntidad').disabled = false;
-			document.getElementById('sol_Guardar').style.display="block";
-			document.getElementById('sol_Adjuntar').style.display="block";
-			document.getElementById('sol_Borrar').style.display="none";
-			document.getElementById('sol_Editar').style.display="none";
+			document.getElementById('telFijo').disabled = false;
+			document.getElementById('telCel').disabled = false;
+			document.getElementById('emp_Guardar').style.display="block";
+			document.getElementById('emp_Borrar').style.display="none";
+			document.getElementById('emp_Editar').style.display="none";
 			}
 
 //DECLARACION DE FUNCIONES A EJECUTARSE SOBRE FORMULARIO DE CATALOGO.    
@@ -88,14 +131,15 @@
         	$("div").click(function(e)
         		{
         			e.stopPropagation();
-        			if(e.target.id.substring(0,10) == "sol_buscar")
+        			if(e.target.id.substring(0,10) == "emp_buscar")
         				{
         					//Si el usuario confirma su solicitud de borrar el registro seleccionado.
-        					document.getElementById('pgfolio').value = document.getElementById('busfolio').value.toString();
-        					document.getElementById('pgasunto').value = document.getElementById('busasunto').value.toString();
-        					document.getElementById('pgidusuario').value = document.getElementById('busidusuario').value.toString();
-        					document.getElementById('pgfregistro').value = document.getElementById('busfregistro').value.toString();
-        					cargar('./php/frontend/solicitudes/catSolicitudes.php','?busfolio='+document.getElementById('busfolio').value.toString()+'&busasunto='+document.getElementById('busasunto').value.toString()+'&busidusuario='+document.getElementById('busidusuario').value.toString()+'&busfregistro='+document.getElementById('busfregistro').value.toString(),'busRes');
+        					document.getElementById('pgpaterno').value = document.getElementById('buspaterno').value.toString();
+        					document.getElementById('pgmaterno').value = document.getElementById('busmaterno').value.toString();
+        					document.getElementById('pgnombre').value = document.getElementById('busnombre').value.toString();
+        					document.getElementById('pgcurp').value = document.getElementById('buscurp').value.toString();
+        					document.getElementById('pgrfc').value = document.getElementById('busrfc').value.toString();
+        					cargar('./php/frontend/empleados/catEmpleados.php','?buspaterno='+document.getElementById('buspaterno').value.toString()+'&busmaterno='+document.getElementById('busmaterno').value.toString()+'&busnombre='+document.getElementById('busnombre').value.toString()+'&buscurp='+document.getElementById('buscurp').value.toString()+'&busrfc='+document.getElementById('busrfc').value.toString(),'busRes');
         					}
         			});                 
     		});
@@ -109,10 +153,10 @@
         	$("div").click(function(e)
         		{
         			e.stopPropagation();
-        			if(e.target.id.substring(0,10) == "sol_delete")
+        			if(e.target.id.substring(0,10) == "emp_delete")
         				{
         					//En caso de coincidir el id con la accion delete.
-            				bootbox.confirm(
+		            		bootbox.confirm(
     			            	{
     				            	message: "¿Confirma que desea borrar el registro?",
     				            	buttons: 
@@ -133,10 +177,10 @@
     				            			if(result)
     				            				{
     				            					//EL USUARIO DECIDE BORRAR EL REGISTRO.
-    				            					cargar('./php/backend/dal/solicitudes/dalSolicitudes.class.php','?id='+e.target.id.substring(11)+'&accion=EdRS','sandbox');
+    				            					cargar('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+e.target.id.substring(11)+'&accion=EdRS','sandbox');
     				            					}			            					
     				            			}
-    			            		});
+    			            		}); 		
         					}
         			});                 
     		});
@@ -150,10 +194,10 @@
         	$("div").click(function(e)
         		{
         			e.stopPropagation();
-        			if(e.target.id.substring(0,7) == "sol_add")
+        			if(e.target.id.substring(0,7) == "emp_add")
         				{
-        					//En caso de coincidir el id con la accion agregar.        					
-        					cargar('./php/frontend/solicitudes/opSolicitudes.php','?id=-1&view=0','sandbox');
+        					//En caso de coincidir el id con la accion agregar.
+        					cargar('./php/frontend/empleados/opEmpleados.php','?id=-1&view=0','sandbox');
         					}
         			});                 
     		});
@@ -167,10 +211,10 @@
         	$("div").click(function(e)
         		{
         			e.stopPropagation();
-        			if(e.target.id.substring(0,14) == "sol_visualizar")
+        			if(e.target.id.substring(0,14) == "emp_visualizar")
         				{
         					//En caso de coincidir el id con la accion visualizar.
-        					cargar('./php/frontend/solicitudes/opSolicitudes.php','?id='+e.target.id.substring(15)+'&view=1','sandbox');
+        					cargar('./php/frontend/empleados/opEmpleados.php','?id='+e.target.id.substring(15)+'&view=1','sandbox');
         					}
         			});                 
     		});
@@ -184,10 +228,10 @@
         	$("div").click(function(e)
         		{
         			e.stopPropagation();
-        			if(e.target.id.substring(0,8) == "sol_edit")
+        			if(e.target.id.substring(0,8) == "emp_edit")
         				{
         					//En caso de coincidir el id con la accion editar.
-        					cargar('./php/frontend/solicitudes/opSolicitudes.php','?id='+e.target.id.substring(9)+'&view=0','sandbox');
+        					cargar('./php/frontend/empleados/opEmpleados.php','?id='+e.target.id.substring(9)+'&view=0','sandbox');
         					}
         			});                 
     		});
@@ -201,14 +245,14 @@
     		$("div").click(function(e)
     			{
     				e.stopPropagation();
-    				if(e.target.id == "sol_Previous_10")
+    				if(e.target.id == "emp_Previous_10")
     					{
     						//En caso de coincidir con el control de retroceso.
     						if((document.getElementById('pagina').value-1)!=0)
     							{
     								document.getElementById('pagina').value = parseInt(document.getElementById('pagina').value.toString())-1;
     								}							
-    						cargar('./php/frontend/solicitudes/catSolicitudes.php','?busfolio='+document.getElementById('pgfolio').value.toString()+'&busasunto='+document.getElementById('pgasunto').value.toString()+'&busidusuario='+document.getElementById('pgidusuario').value.toString()+'&busfregistro='+document.getElementById('pgfregistro').value.toString()+'&pagina='+document.getElementById('pagina').value.toString(),'busRes');
+    						cargar('./php/frontend/empleados/catEmpleados.php','?buspaterno='+document.getElementById('pgpaterno').value.toString()+'&busmaterno='+document.getElementById('pgmaterno').value.toString()+'&busnombre='+document.getElementById('pgnombre').value.toString()+'&buscurp='+document.getElementById('pgcurp').value.toString()+'&busrfc='+document.getElementById('pgrfc').value.toString()+'&pagina='+document.getElementById('pagina').value.toString(),'busRes');
     						}
     				});                 
 			});
@@ -222,11 +266,11 @@
     		$("div").click(function(e)
     			{
     				e.stopPropagation();
-    				if(e.target.id == "sol_Next_10")
+    				if(e.target.id == "emp_Next_10")
     					{
     						//En caso de coincidir con el control de avance.
     						document.getElementById('pagina').value = parseInt(document.getElementById('pagina').value.toString())+1;							
-    						cargar('./php/frontend/solicitudes/catSolicitudes.php','?busfolio='+document.getElementById('pgfolio').value.toString()+'&busasunto='+document.getElementById('pgasunto').value.toString()+'&busidusuario='+document.getElementById('pgidusuario').value.toString()+'&busfregistro='+document.getElementById('pgfregistro').value.toString()+'&pagina='+document.getElementById('pagina').value.toString(),'busRes');
+    						cargar('./php/frontend/empleados/catEmpleados.php','?buspaterno='+document.getElementById('pgpaterno').value.toString()+'&busmaterno='+document.getElementById('pgmaterno').value.toString()+'&busnombre='+document.getElementById('pgnombre').value.toString()+'&buscurp='+document.getElementById('pgcurp').value.toString()+'&busrfc='+document.getElementById('pgrfc').value.toString()+'&pagina='+document.getElementById('pagina').value.toString(),'busRes');
     						}
     				});                 
 			});
@@ -241,10 +285,10 @@
     		$("div").click(function(e)
     			{
     		     	e.stopPropagation();
-    		        if(e.target.id == "sol_Volver")
+    		        if(e.target.id == "emp_Volver")
     		        	{
     		            	//En caso de coincidir el id con la accion volver.
-    		            	cargar('./php/frontend/solicitudes/busSolicitudes.php','','sandbox');
+    		            	cargar('./php/frontend/empleados/busEmpleados.php','','sandbox');
     		            	}
     				});                 
 			});
@@ -258,7 +302,7 @@
     		$("div").click(function(e)
     			{
     			 	e.stopPropagation();
-    			    if(e.target.id == "sol_Borrar")
+    			    if(e.target.id == "emp_Borrar")
     			    	{
     			         	//En caso de coincidir el id con la accion borrar.
     			            bootbox.confirm(
@@ -282,7 +326,7 @@
     				            			if(result)
     				            				{
     				            					//EL USUARIO DECIDE BORRAR EL REGISTRO.
-    				            					cargar('./php/backend/dal/solicitudes/dalSolicitudes.class.php','?id='+document.getElementById('idSolicitud').value.toString()+'&accion=EdRS','sandbox');
+    				            					cargar('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+document.getElementById('idEmpleado').value.toString()+'&accion=EdRS','sandbox');
     				            					}			            					
     				            			}
     			            		});
@@ -299,7 +343,7 @@
     		$("div").click(function(e)
     			{
     				e.stopPropagation();
-    				if(e.target.id == "sol_Guardar")
+    				if(e.target.id == "emp_Guardar")
     					{
     				     	//En caso de coincidir el id con la accion guardar.
     				        bootbox.confirm(
@@ -323,7 +367,7 @@
     				            			if(result)
     				            				{
     				            					//EL USUARIO DECIDE ALMACENAR LOS DATOS.
-    				            					guardarSolicitud('./php/backend/dal/solicitudes/dalSolicitudes.class.php','?id='+document.getElementById('idSolicitud').value.toString()+'&folio='+document.getElementById('Folio').value.toString()+'&asunto='+document.getElementById('Asunto').value.toString()+'&detalle='+document.getElementById('Detalle').value.toString()+'&fregistro='+document.getElementById('fRegistro').value.toString()+'&idusuario='+document.getElementById('idUsuario').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&captcha='+document.getElementById('captcha_code').value.toString().toUpperCase()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
+    				            					guardarEmpleado('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+document.getElementById('idEmpleado').value.toString()+'&paterno='+document.getElementById('Paterno').value.toString()+'&materno='+document.getElementById('Materno').value.toString()+'&nombre='+document.getElementById('Nombre').value.toString()+'&fnacimiento='+document.getElementById('fNacimiento').value.toString()+'&curp='+document.getElementById('curp').value.toString()+'&rfc='+document.getElementById('rfc').value.toString()+'&calle='+document.getElementById('Calle').value.toString()+'&nint='+document.getElementById('nInt').value.toString()+'&next='+document.getElementById('nExt').value.toString()+'&idcolonia='+document.getElementById('emp_cbidColonia').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&telfijo='+document.getElementById('telFijo').value.toString()+'&telcel='+document.getElementById('telCel').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
     				            					}			            					
     				            			}
     				        		});			        		
@@ -332,7 +376,7 @@
 			});
 
 /*
- * El presente segmento de codigo evalua la accion de click sobre el elemento de edicion
+ * El presente segmento de codigo evalua la accion keyup sobre el elemento de consulta
  * pulsado sobre el formulario operativo.
  */
 	$(document).ready(function()
@@ -340,45 +384,23 @@
     		$("div").click(function(e)
     			{
     				e.stopPropagation();
-    				if(e.target.id == "sol_Editar")
+    				if(e.target.id == "emp_Editar")
     					{
     				     	//En caso de coincidir el id con la accion edicion.
-    				        habSolicitud();
+    				        habEmpleado();
     						}
     				});                 
 			});
 	
-	$(document).ready(function() {
-	    $("div").click(function(e){
-	    	e.stopPropagation();
-	    	if(e.target.id == "sol_Adjuntar")
-	    		{
-	    			//Se confirma la carga de actualizacion sobre archivos adjuntos.
-	    			var visualizar = '';
-	    			var w = 200;
-	    			var h = 100;
-	    			
-	    			var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-	    			var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
-	    			
-	    		    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-	    		    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-	    		    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-	    		    var top = ((height / 2) - (h / 2)) + dualScreenTop;
-	    		    
-	    		    if(document.getElementById('sol_Guardar').style.display == "none")
-	    		    	{
-	    		    		//Registro en modo visualizacion.
-	    		    		visualizar='&visualizar=1';
-	    		    		}
-	    		    else
-	    		    	{
-	    		    		//Registro en modo de edicion.
-	    		    		visualizar='&visualizar=0';
-	    		    		}
-	    		    
-	    			window.open('./php/frontend/utilidades/archivos/subirArchivos.php?rutaadjuntos='+document.getElementById('Folio').value.toString()+visualizar, "Subir Archivos", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, toolbar=yes, tittlebar=no, width="+width.toString()+", height="+height.toString()+", top="+top.toString()+", left="+left.toString());    			
-	    			}
-	    });                 
-	});	
+	$(document).ready(function()
+			{
+				$("div").keyup(function(e)
+					{
+						e.stopPropagation();
+						if(e.target.id == "emp_cbidColonia")
+							{
+								//En caso de coincidir el id con la accion edicion.
+								$("#emp_cbidColonia").autocomplete({source:"./php/frontend/empleados/comp/idColonias.class.php?parametro="+document.getElementById('emp_cbidColonia').value});
+								}	    			
+						});                 
+				});

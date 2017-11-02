@@ -52,7 +52,8 @@
 					 * asi como obtener o modificar la informacion mediante la consulta sugerida.
 					 */					
 				    $this->conexion = mysqli_connect($this->serverName, $this->userName, $this->userPassword);
-
+				    mysqli_set_charset($this->conexion,"ISO-8859-1");
+				    
 					if(!$this->conexion)
 						{
 							//En caso de ocurrir un error con la entrada a la base de datos

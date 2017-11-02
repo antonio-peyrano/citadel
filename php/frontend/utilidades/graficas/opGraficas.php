@@ -13,6 +13,7 @@
     header('Content-Type: text/html; charset=iso-8859-1'); //Forzar la codificación a ISO-8859-1.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/dal/main/conectividad.class.php"); //Se carga la referencia a la clase de conectividad.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/config.php");
+    include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/main/usrctrl.class.php"); //Se carga la referencia de clase para control de accesos.
     
     class opGraficas
         {
@@ -109,6 +110,41 @@
                     }
             }
 
-    $objOpGraficas = new opGraficas();
-    echo $objOpGraficas->drawUI();
+    $objUsrCtrl = new usrctrl();
+            
+    if($objUsrCtrl->getCredenciales())
+        {
+            /*
+             * Se valida que el usuario tenga sus credenciales cargadas
+             * previo login en el sistema.
+             */
+            $idUsuario = $objUsrCtrl->getidUsuario($_SESSION['usuario'], $_SESSION['clave']);
+            $Modulo = 'Graficas';
+                
+            if($objUsrCtrl->validarCredenciales($idUsuario, $Modulo)!='')
+                {
+                    /*
+                     * Se valida que las credenciales autoricen la ejecucion del
+                     * modulo solicitado.
+                     */
+                    $objOpGraficas = new opGraficas();
+                    echo $objOpGraficas->drawUI();
+                    }
+            else
+                {
+                    /*
+                     * En caso que no cuente con credenciales validas, el sistema impedira
+                     * la brecha de seguridad.
+                     */
+                    include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/notificaciones/noAutorizado.php");
+                }
+            }
+    else
+        {
+            /*
+             * En caso que no cuente con credenciales validas, el sistema impedira
+             * la brecha de seguridad.
+             */
+            include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/notificaciones/noAutorizado.php");
+            }
 ?>

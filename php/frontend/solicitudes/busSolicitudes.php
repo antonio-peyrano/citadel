@@ -42,14 +42,14 @@
                      * usuarios.
                      */
                     $HTML = '<tr><td class= "queryRowsnormTR">Por usuario: </td><td class= "queryRowsnormTR"><select name= "busidusuario" id= "busidusuario" value= "-1">
-                                <option value=-1>Seleccione</option>';
+                                <option value="Seleccione">Seleccione</option>';
                     
                     $subconsulta = $this->cargarUsuarios();
                     $RegUsuarios = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
                                                           
                     while($RegUsuarios)
                         {
-                            $HTML .= '<option value='.$RegUsuarios['idUsuario'].'>'.$RegUsuarios['Usuario'].'</option>';
+                            $HTML .= '<option value='.$RegUsuarios['Usuario'].'>'.$RegUsuarios['Usuario'].'</option>';
                             $RegUsuarios = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
                             }
                     
@@ -69,7 +69,7 @@
                             </div> 
                             <div id= "divBusqueda">
                                 <table class="queryTable" colspan= "7">
-                                    <tr><td class= "queryRowsnormTR" width ="180">Por folio: </td><td class= "queryRowsnormTR" width= "250"><input type= "text" id= "busfolio"></td><td rowspan= "2"><img id="'.$this->Sufijo.'buscar" align= "left" src= "./img/grids/view.png" width= "25" height= "25" alt="Buscar"/></td></tr>
+                                    <tr><td class= "queryRowsnormTR" width ="180">Por folio: </td><td class= "queryRowsnormTR" width= "250"><input type= "text" id= "busfolio"></td><td rowspan= "4"><img id="'.$this->Sufijo.'buscar" align= "left" src= "./img/grids/view.png" width= "25" height= "25" alt="Buscar"/></td></tr>
                                     <tr><td class= "queryRowsnormTR">Por asunto: </td><td class= "queryRowsnormTR"><input type= "text" id= "busasunto"></td><td></td></tr>
                                     <tr><td class= "queryRowsnormTR">Por fecha de registro: </td><td class= "queryRowsnormTR"><input type= "text" id= "busfregistro"></td><td></td></tr>'
                                     .$this->drawCBUsuarios().                                        

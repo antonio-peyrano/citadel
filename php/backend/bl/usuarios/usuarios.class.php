@@ -198,10 +198,10 @@
                             else
                                 {
                                     //En caso que no se encuentre establecida la variable de sesion
-                                    //"nivel" se infiere que el usuario gestiona su creación como invitado.
+                                    //"nivel" se infiere que el usuario gestiona su creaciï¿½n como invitado.
                                     if($cntView == 9)
                                         {
-                                            //Se valida que la ejecución provenga como modo invitado.
+                                            //Se valida que la ejecuciï¿½n provenga como modo invitado.
                                             $botonera .= $btnGuardar_V.$btnVolver_V;
                                             }
                                     }
@@ -350,7 +350,7 @@
                                     $regPermisos = @mysqli_fetch_array($dsPermisos,MYSQLI_ASSOC);
                                     }
                                     
-                            $HTML .= '<input type="checkbox" class="check" id="modulos[]" name="modulos[]" '.$habCampos.' value="'.$regModulos['idModulo'].'" '.$checkState.'>'.$regModulos['Modulo'].' ';                                    
+                            $HTML .= '<br><input type="checkbox" class="check" id="modulos[]" name="modulos[]" '.$habCampos.' value="'.$regModulos['idModulo'].'" '.$checkState.'>'.$regModulos['Modulo'].' ';                                    
                             $regModulos = @mysqli_fetch_array($dsModulos,MYSQLI_ASSOC);
                             }
                             

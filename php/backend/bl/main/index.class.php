@@ -60,7 +60,9 @@
                                                 '<ul class="subnavegador">'
                                                 .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Colonias&lreq=1','escritorio');", "./img/menu/colonias.png", "Colonias")                                                    
                                                 .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Entidades&lreq=1','escritorio');", "./img/menu/entidades.png", "Entidades")
+                                                .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Puestos&lreq=1','escritorio');", "./img/menu/puestos.png", "Puestos")
                                                 .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Clientes&lreq=1','escritorio');", "./img/menu/clientes.png", "Clientes")
+                                                .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Empleados&lreq=1','escritorio');", "./img/menu/empleados.png", "Empleados")
                                                 .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Usuarios&lreq=1','escritorio');", "./img/menu/usuarios.png", "Usuarios")
                                                 .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Cedulas&lreq=1','escritorio');", "./img/menu/cedula.png", "Cedulas")
                                                 .$this->bodyItem("item-cuerpo-01", "cargar('./php/backend/bl/main/cargador.class.php','?modulo=Factores&lreq=1','escritorio');", "./img/menu/factores.png", "Factores")
@@ -99,10 +101,10 @@
                                 <link rel="stylesheet" href="./css/notificaciones.css"></style>
                                 <link rel="stylesheet" href="./css/operativo.css"></style>
                                 <link rel="stylesheet" href="./css/datagrid.css"></style>
-                                <link rel="stylesheet" href="./css/jquery-ui.css"></style>
+                                <link rel="stylesheet" href="./css/jquery-ui.css"></style>                                
                                 <link rel="stylesheet" href="./css/bootstrap.min.css"></style>                        
                                 <link rel="icon" type="image/png" href="./img/icologo.png" />
-                                <title>Phoenix</title>
+                                <title>Citadel</title>
                                 <script type="text/javascript" src="./js/jquery/jquery-1.9.1.js"></script>
                                 <script type="text/javascript" src="./js/jquery/jquery-1.9.1.min.js"></script>                        
                                 <script type="text/javascript" src="./js/jquery/jquery.jscrollpane.min.js"></script>
@@ -116,8 +118,10 @@
                                 <script type="text/javascript" src="./js/main/login.js"></script>
                                 <script type="text/javascript" src="./js/colonias/colonias.js"></script>
                                 <script type="text/javascript" src="./js/entidades/entidades.js"></script>
+                                <script type="text/javascript" src="./js/puestos/puestos.js"></script>
                                 <script type="text/javascript" src="./js/usuarios/usuarios.js"></script>
                                 <script type="text/javascript" src="./js/clientes/clientes.js"></script>
+                                <script type="text/javascript" src="./js/empleados/empleados.js"></script>
                                 <script type="text/javascript" src="./js/utilidades/graficas.js"></script>
                                 <script type="text/javascript" src="./js/instrumentos/cedulas/cedulas.js"></script>
                                 <script type="text/javascript" src="./js/instrumentos/factores/factores.js"></script>

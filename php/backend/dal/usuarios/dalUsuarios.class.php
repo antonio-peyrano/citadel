@@ -145,7 +145,7 @@
                                              * Cuando el valor del captcha enviado no corresponde
                                              * a alguno dentro del esquema de validaciones.
                                              */
-                                            $this->captchaFail = 'El texto no corresponde a la imagen visualizada';
+                                            $this->captchaFail = 'El captcha no corresponde a la imagen visualizada';
                                             }
                                     }
                                     
@@ -266,6 +266,7 @@
                                      * se procesa la solicitud como una invocacion desde las funciones
                                      * de invitado.
                                      */
+                                    $_GET['captcha_fail'] = $this->captchaFail;
                                     include_once($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/usuarios/guest/opUsuarios.php");                                    
                                     }                                                                                                    
                             }

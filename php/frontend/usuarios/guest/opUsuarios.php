@@ -26,6 +26,7 @@
             private $ClaveCod = '';
             private $imgTitleURL = './img/menu/usuarios.png';
             private $Title = 'Registro de Usuario';
+            private $HTMLCaptcha_Fail='';
             
             public function __construct()
                 {
@@ -35,6 +36,17 @@
                      */
                     if(isset($_GET['view'])){$this->cntView = $_GET['view'];}
                     if(isset($_GET['id'])){$this->idUsuario = $_GET['id'];}
+                    $this->HTMLCaptcha_Fail='';
+                    if(isset($_GET['captcha_fail']))
+                        {
+                            /*
+                             * Si el sistema retorna de una validacion fallida de captcha.
+                             */
+                            if($_GET['captcha_fail']!='')
+                                {
+                                    $this->HTMLCaptcha_Fail='<div id="captchaFail"><b>'.$_GET['captcha_fail'].'</b></div>';
+                                    }
+                            }
                     }
 
             public function getView()
@@ -133,8 +145,8 @@
                                                 <tr><td class="td-panel" width="100px">Respuesta: </td><td><input id= "Respuesta" type= "text" class= "inputform" '.$habCampos.' value= "'.$RegUsuario['Respuesta'].'"></td></tr>
                                                 <tr><td class="td-panel" width="100px" colspan= "4"><center>Codigo de Verificacion'.$this->captchaDraw().'</center></td></tr>                                                                                        
                                             </table>
-                                        </div>                                                    
-                                        <div id="pie" class="pie-operativo">'.$objUsuarios->controlBotones("32", "32", $this->getView()).'</div>                                                                                                                                                                                   
+                                        </div>'.$this->HTMLCaptcha_Fail.                                                    
+                                        '<div id="pie" class="pie-operativo">'.$objUsuarios->controlBotones("32", "32", $this->getView()).'</div>                                                                                                                                                                                   
                                     </div>';
                     return $HTMLBody;                                                
                     }                    

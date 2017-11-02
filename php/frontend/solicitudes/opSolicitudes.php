@@ -23,11 +23,12 @@
              */
             private $cntView = 0;
             private $idSolicitud = 0;
-            //private $idUsuario = 0;
             private $fRegistro = '';
+            private $Folio = '';
             private $ClaveCod = ''; 
             private $imgTitleURL = './img/menu/solicitudes.png';
             private $Title = 'Solicitud';
+            private $HTMLCaptcha_Fail='';
             
             public function __construct()
                 {
@@ -38,8 +39,17 @@
                     $objSolicitudes = new solicitudes();                            
                     if(isset($_GET['view'])){$this->cntView = $_GET['view'];}
                     if(isset($_GET['id'])){$this->idSolicitud = $_GET['id'];}
-                    //$objSolicitudes->setIDUsuario(); //Obteniendo el ID del usuario con sesion activa.
-                    //$objSolicitudes->setFechaRegistro(); //Se genera la fecha de registro.
+                    $this->HTMLCaptcha_Fail='';
+                    if(isset($_GET['captcha_fail']))
+                        {
+                            /*
+                             * Si el sistema retorna de una validacion fallida de captcha.
+                             */
+                            if($_GET['captcha_fail']!='')
+                                {
+                                    $this->HTMLCaptcha_Fail='<div id="captchaFail"><b>'.$_GET['captcha_fail'].'</b></div>';
+                                    }
+                            }
                     }
 
             public function saltosLineaRev($str)
@@ -51,13 +61,13 @@
                     return str_replace(array("<br>"), "\n", $str);
                     }
 
-            function calcularFolio($Registro)
+            public function calcularFolio($Registro)
                 {
                     /*
                      * Esta funcion establece el calculo de la clave de la solicitud a razon
                      * de los elementos existentes.
                      */
-                    global $username, $password, $servername, $dbname, $idObjEst, $idObjOpe, $Clave, $periodo;
+                    global $username, $password, $servername, $dbname;
                     
                     $objAux = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
                     
@@ -79,10 +89,22 @@
                     $parseFecha = explode(" ",$parseFecha);
                     $parseFecha = implode("",$parseFecha);                    
 
-                    if($Clave=="")
+                    if(isset($_GET['folio']))
                         {
-                            //Si se trata de un nuevo registro, se genera una clave artificial nueva.
-                            $Clave = 'SAU'.'-'.$parseFecha."-".($RowCount + 1);
+                            /*
+                             * En caso de tratarse de un registro con fallo de creacion,
+                             * se preserva el numero de folio para evitar fallos de integridad
+                             * en la administracion de archivos adjuntos.
+                             */
+                             $this->Folio = $_GET['folio'];                             
+                            }
+                    else
+                        {
+                            /*
+                             * En caso de un registro de nueva creación sin fallos,
+                             * se genera un nuevo numero de folio.
+                             */
+                            $this->Folio = 'SAU'.'-'.$parseFecha."-".($RowCount + 1);
                             }
                             
                     if(!empty($Registro['Folio']))
@@ -91,7 +113,7 @@
                             }
                     else
                         {
-                            return '<td><input type= "text" class= "inputform" id= "Folio" required= "required" readonly value= "'.$Clave.'"></td>';
+                            return '<td><input type= "text" class= "inputform" id= "Folio" required= "required" readonly value= "'.$this->Folio.'"></td>';
                             }                                    
                     }   
                                                          
@@ -140,43 +162,59 @@
                      if($Registro['Status'] == '0')
                         {
                             $HTML .= '<option value=0 selected>Registrada</option>';
-                            $HTML .= '<option value=1>En proceso</option>';
-                            $HTML .= '<option value=2>Procesada</option>';
-                            $HTML .= '<option value=3>Cancelada</option>';
+                            $HTML .= '<option value=1>Canalizada</option>';
+                            $HTML .= '<option value=2>En proceso</option>';
+                            $HTML .= '<option value=3>Procesada</option>';
+                            $HTML .= '<option value=4>Cancelada</option>';
                             }
                     else
                         {
                             if($Registro['Status'] == '1')
                                 {
                                     $HTML .= '<option value=0>Registrada</option>';
-                                    $HTML .= '<option value=1 selected>En proceso</option>';
-                                    $HTML .= '<option value=2>Procesada</option>';
-                                    $HTML .= '<option value=3>Cancelada</option>';
+                                    $HTML .= '<option value=1 selected>Canalizada</option>';
+                                    $HTML .= '<option value=2>En proceso</option>';
+                                    $HTML .= '<option value=3>Procesada</option>';
+                                    $HTML .= '<option value=4>Cancelada</option>';
                                     }
                             else
                                 {
                                     if($Registro['Status'] == '2')
                                         {
                                             $HTML .= '<option value=0>Registrada</option>';
-                                            $HTML .= '<option value=1>En proceso</option>';
-                                            $HTML .= '<option value=2 selected>Procesada</option>';
-                                            $HTML .= '<option value=3>Cancelada</option>';
+                                            $HTML .= '<option value=1>Canalizada</option>';
+                                            $HTML .= '<option value=2 selected>En proceso</option>';
+                                            $HTML .= '<option value=3>Procesada</option>';
+                                            $HTML .= '<option value=4>Cancelada</option>';
                                             }
                                     else
                                         {
                                             if($Registro['Status'] == '3')
                                                 {
                                                     $HTML .= '<option value=0>Registrada</option>';
-                                                    $HTML .= '<option value=1>En proceso</option>';
-                                                    $HTML .= '<option value=2>Procesada</option>';
-                                                    $HTML .= '<option value=3 selected>Cancelada</option>';
+                                                    $HTML .= '<option value=1>Canalizada</option>';
+                                                    $HTML .= '<option value=2>En proceso</option>';
+                                                    $HTML .= '<option value=3 selected>Procesada</option>';
+                                                    $HTML .= '<option value=4>Cancelada</option>';
                                                     }
                                             else
                                                 {
-                                                    $HTML .= '<option value=0>Registrada</option>';
-                                                    $HTML .= '<option value=1>En proceso</option>';
-                                                    $HTML .= '<option value=2>Procesada</option>';
-                                                    $HTML .= '<option value=3>Cancelada</option>';
+                                                    if($Registro['Status'] == '4')
+                                                        {
+                                                            $HTML .= '<option value=0>Registrada</option>';
+                                                            $HTML .= '<option value=1>Canalizada</option>';
+                                                            $HTML .= '<option value=2>En proceso</option>';
+                                                            $HTML .= '<option value=3>Procesada</option>';
+                                                            $HTML .= '<option value=4 selected>Cancelada</option>';
+                                                            }
+                                                    else
+                                                        {
+                                                            $HTML .= '<option value=0>Registrada</option>';
+                                                            $HTML .= '<option value=1>Canalizada</option>';
+                                                            $HTML .= '<option value=2>En proceso</option>';
+                                                            $HTML .= '<option value=3>Procesada</option>';
+                                                            $HTML .= '<option value=4>Cancelada</option>';
+                                                            }                                                            
                                                     }
                                             }
                                     }
@@ -322,8 +360,8 @@
                                                 .$this->drawTRStatus($RegSolicitud, $habCampos).                                                
                                                 '<tr><td class="td-panel" width="100px" colspan= "4"><center>Codigo de Verificacion'.$this->captchaDraw().'</center></td></tr>                                                                                        
                                             </table>
-                                        </div>                                                    
-                                        <div id="pie" class="pie-operativo">'.$objSolicitudes->controlBotones("32", "32", $this->getView(), $RegSolicitud['idUsuario']).'</div>                                                                                                                                                                                   
+                                        </div>'.$this->HTMLCaptcha_Fail.                                                    
+                                        '<div id="pie" class="pie-operativo">'.$objSolicitudes->controlBotones("32", "32", $this->getView(), $RegSolicitud['idUsuario']).'</div>                                                                                                                                                                                   
                                     </div>';
                     return $HTMLBody;                                                
                     }                    

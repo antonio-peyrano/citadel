@@ -13,19 +13,20 @@
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/dal/main/conectividad.class.php"); //Se carga la referencia a la clase de conectividad.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/config.php"); //Se carga la referencia de los atributos de configuracion.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/utilidades/grid.class.php");
-    include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/solicitudes/solicitudes.class.php");
+    include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/empleados/empleados.class.php");
     
-    class catSolicitudes
+    class catEmpleados
         {
             /*
              * Esta clase contiene los atributos y procedimientos para la creacion de la interfaz
-             * del catalogo de solicitudes.
+             * del catalogo de empleados.
              */
            
-            private $Folio = "";
-            private $Asunto = "";
-            private $idUsuario = NULL;
-            private $fRegistro = "";
+            private $Paterno = "";
+            private $Materno = "";
+            private $Nombre = "";
+            private $curp = "";
+            private $rfc = "";
             private $Inicio = 0;
             private $Pagina = 1;
             private $DisplayRow = 10;
@@ -36,26 +37,31 @@
                      * Esta funcion constructor, valida los datos recibidos por medio
                      * de la URL.
                      */
-                    if(isset($_GET['busfolio']))
+                    if(isset($_GET['buspaterno']))
                         {
-                            $this->Folio = $_GET['busfolio'];
+                            $this->Paterno = $_GET['buspaterno'];
                             }
                             
-                    if(isset($_GET['busasunto']))
+                    if(isset($_GET['busmaterno']))
                         {
-                            $this->Asunto = $_GET['busasunto']; 
+                            $this->Materno = $_GET['busmaterno']; 
                             }
 
-                    if(isset($_GET['busfregistro']))
+                    if(isset($_GET['busnombre']))
                         {
-                            $this->fRegistro = $_GET['busfregistro'];
+                            $this->Nombre = $_GET['busnombre'];
                             }
 
-                    if(isset($_GET['busidusuario']))
+                    if(isset($_GET['buscurp']))
                         {
-                            $this->idUsuario = $_GET['busidusuario'];
+                            $this->curp = $_GET['buscurp'];
                             }
-                                                        
+
+                    if(isset($_GET['busrfc']))
+                        {
+                            $this->rfc = $_GET['busrfc'];
+                            }
+                            
                     if(isset($_GET['pagina']))
                         {
                             //Se proporciona referencia de pagina a mostrar.
@@ -74,18 +80,18 @@
                 {
                     /*
                      * Esta funcion crea el codigo HTML de la interfaz grafica
-                     * del catalogo de solicitudes.
+                     * del catalogo de empleados.
                      */
                     global $username, $password, $servername, $dbname;
                     
                     $objConexion = new mySQL_conexion($username, $password, $servername, $dbname);
-                    $objSolicitudes = new solicitudes();
+                    $objEmpleados = new empleados();
 
-                    $objSolicitudes->setCatParametros($this->Folio, $this->Asunto, $this->fRegistro, $this->idUsuario);                    
-                    $Consulta = $objSolicitudes->getConsulta().$objSolicitudes->evaluaCondicion()." limit ".$this->Inicio.",".$this->DisplayRow;
-                    $dsSolicitudes = $objConexion -> conectar($Consulta); //Se ejecuta la consulta.
+                    $objEmpleados->setCatParametros($this->Paterno, $this->Materno, $this->Nombre, $this->curp, $this->rfc);                    
+                    $Consulta = $objEmpleados->getConsulta().$objEmpleados->evaluaCondicion()." limit ".$this->Inicio.",".$this->DisplayRow;
 
-                    $objGridSolicitudes = new myGrid($dsSolicitudes, 'Catalogo de Solicitudes', $objSolicitudes->getSufijo(), 'idSolicitud');
+                    $dsEmpleados = $objConexion -> conectar($Consulta); //Se ejecuta la consulta.
+                    $objGridEmpleados = new myGrid($dsEmpleados, 'Catalogo de Empleados', $objEmpleados->getSufijo(), 'idEmpleado');
 
                     echo'
                             <html>
@@ -93,8 +99,8 @@
                                 </head>
                                 <body>';
                     
-                                    echo $objGridSolicitudes->headerTable();
-                                    echo $objGridSolicitudes->bodyTable();
+                                    echo $objGridEmpleados->headerTable();
+                                    echo $objGridEmpleados->bodyTable();
                     
                     echo'
                                 </body>
@@ -102,6 +108,6 @@
                     }                    
             }
             
-    $objCatClientes = new catSolicitudes();
-    $objCatClientes->drawUI();            
+    $objCatEmpleados = new catEmpleados();
+    $objCatEmpleados->drawUI();            
 ?>

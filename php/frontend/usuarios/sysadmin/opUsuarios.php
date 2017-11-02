@@ -137,7 +137,7 @@
                                                         <tr><td class="td-panel" width="100px">Nivel:</td><td>'.$this->getNiveles($habCampos, $RegUsuario).'</td></tr>
                                                         <tr><td class="td-panel" width="100px">Pregunta:</td><td>'.$objUsuarios->cargarPreguntas($habCampos, $RegUsuario['Pregunta']).'</td></tr>
                                                         <tr><td class="td-panel" width="100px">Respuesta: </td><td><input id= "Respuesta" type= "text" '.$habCampos.' value= "'.$RegUsuario['Respuesta'].'"></td></tr>
-                                                        <tr><td class="td-panel" width="100px">Permisos: </td><td class="td-panel">'.$objUsuarios->listaModulos($habCampos, $RegUsuario['idUsuario']).'</td></tr>
+                                                        <tr><td class="td-panel" width="100px">Permisos: </td><td class="td-panel"><div id="lstPermisos" style="height:100px; overflow:scroll;">'.$objUsuarios->listaModulos($habCampos, $RegUsuario['idUsuario']).'</div></td></tr>
                                                     </table>                                   
                                                 </div>                                                    
                                                 <div id="pie" class="pie-operativo">'.$objUsuarios->controlBotones("32", "32", $this->getView()).'</div>                                                                                                                                                                                   

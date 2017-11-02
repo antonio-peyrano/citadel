@@ -22,11 +22,12 @@
             //ATRIBUTOS APLICABLES AL MODULO catSolicitudes.php
             private $Condicionales = "";
             private $Sufijo = "sol_";
-            private $Folio = "";
-            private $fRegistro = "";
+            private $Folio = "";            
             private $Asunto = "";
+            private $fRegistro = "";
+            private $Usuario = "";
             private $Detalle = "";
-            private $Consulta = 'SELECT idSolicitud, idUsuario, Folio, fRegistro AS Registro, Asunto, if(Status=0,"Registrada",if(Status=1,"En Proceso",if(Status=2,"Procesada",if(Status=3,"Cancelada","No definido")))) AS Status FROM opSolicitudes WHERE 1=1';
+            private $Consulta = 'SELECT idSolicitud, Usuario, Folio, fRegistro AS Registro, Asunto, if(opSolicitudes.Status=0,"Registrada",if(opSolicitudes.Status=1,"Canalizada",if(opSolicitudes.Status=2,"En Proceso",if(opSolicitudes.Status=3,"Procesada",if(opSolicitudes.Status=4,"Cancelada","No Definido"))))) AS Status FROM (opSolicitudes INNER JOIN catUsuarios ON catUsuarios.idUsuario = opSolicitudes.idUsuario) WHERE 1=1';
             //FIN DE DECLARACION DE ATRIBUTOS APLICABLES AL MODULO catSolicitudes.php
             
             //ATRIBUTOS APLICABLES AL MODULO opSolicitudes.php
@@ -76,6 +77,14 @@
                     return $this->idUsuario;
                     }
 
+            public function getUsuario()
+                {
+                    /*
+                     * Esta funcion retorna el valor del nombre de usuario.
+                     */
+                    return $this->Usuario;
+                    }
+                    
             public function getConsulta()
                 {
                     /*
@@ -92,7 +101,7 @@
                     return $this->Sufijo;
                     }
                                 
-            public function setCatParametros($Folio, $Asunto, $fRegistro, $idUsuario)
+            public function setCatParametros($Folio, $Asunto, $fRegistro, $Usuario)
                 {
                     /*
                      * Esta funcion obtiene de la interaccion del usuario, los parametros
@@ -101,7 +110,7 @@
                     $this->Folio = $Folio;
                     $this->Asunto = $Asunto;
                     $this->fRegistro = $fRegistro;
-                    $this->idUsuario = $idUsuario;
+                    $this->Usuario = $Usuario;
                     }  
 
             public function evaluaCondicion()
@@ -128,14 +137,14 @@
                             $this->Condicionales .= ' AND fRegistro = \''.date("Y/m/d H:i:s",strtotime($this->getfRegistro())).'\'';
                             }
 
-                    if(!empty($this->getIDUsuario()))
+                    if(!empty($this->getUsuario()))
                         {
-                            if($this->getIDUsuario()!="-1")
+                            if($this->getUsuario()!="Seleccione")
                                 {
-                                    $this->Condicionales .= ' AND idUsuario = \''.$this->getIDUsuario().'\'';
+                                    $this->Condicionales .= ' AND Usuario = \''.$this->getUsuario().'\'';
                                     }
                             }
-                                                        
+                                                                            
                     return $this->Condicionales;                            
                     }                    
             //FIN DE DECLARACION DE PROCEDIMIENTOS APLICABLES AL MODULO catSolicitudes.php
