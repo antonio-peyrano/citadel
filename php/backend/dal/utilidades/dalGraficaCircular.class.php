@@ -19,9 +19,10 @@
     class dalGraficaCircular
         {
             private $idEntidad = '';
+            private $zeroControll = 0; //Atributo de control para la salida de datos y prevension de errores.
             private $Identificador = '';
-            private $Conceptos = array (0.00, 0.00, 0.00, 0.00);
-            private $Leyendas = array('Registradas','En Proceso','Procesadas','Canceladas');
+            private $Conceptos = array (0.00, 0.00, 0.00, 0.00, 0.00);
+            private $Leyendas = array('Registradas','Canalizadas', 'En Proceso','Procesadas','Canceladas');
                          
             public function __construct()
                 {
@@ -36,18 +37,27 @@
                     //Esta funcion retorna el valor almacenado para el atributo idEntidad.
                     return $this->idEntidad;
                     }
+
+            public function getZeroControll()
+                    {
+                        //Esta funcion retorna el valor almacenado para el atributo de control de fallos.
+                        return $this->zeroControll;
+                    }
                     
             public function obtenerDatos()
                 {
                     //Esta función obtiene el valor esperado de la eficacia por la entidad consultada.
                     global $username, $password, $servername, $dbname;
-                        
+                   
+                    $this->zeroControll = 0;                    
                     $idCampo = 'Entidad';
+                    
                     $consIdentificador = 'SELECT *FROM catEntidades WHERE idEntidad ='.$this->getidEntidad();
                     $consRegistradas = 'SELECT *FROM opSolicitudes WHERE Status=0 AND idEntidad='.$this->getidEntidad();
-                    $consEnProceso = 'SELECT *FROM opSolicitudes WHERE Status=1 AND idEntidad='.$this->getidEntidad();
-                    $consProcesadas = 'SELECT *FROM opSolicitudes WHERE Status=2 AND idEntidad='.$this->getidEntidad();
-                    $consCanceladas = 'SELECT *FROM opSolicitudes WHERE Status=3 AND idEntidad='.$this->getidEntidad();
+                    $consCanalizadas = 'SELECT *FROM opSolicitudes WHERE Status=1 AND idEntidad='.$this->getidEntidad();
+                    $consEnProceso = 'SELECT *FROM opSolicitudes WHERE Status=2 AND idEntidad='.$this->getidEntidad();
+                    $consProcesadas = 'SELECT *FROM opSolicitudes WHERE Status=3 AND idEntidad='.$this->getidEntidad();
+                    $consCanceladas = 'SELECT *FROM opSolicitudes WHERE Status=4 AND idEntidad='.$this->getidEntidad();
                         
                     //Se obtiene el referente del identificador a evaluar.
                     $objConexion = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
@@ -59,22 +69,27 @@
                     //Se obtienen el conteo de Registradas.
                     $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
                     $dsConsulta = $objConexion -> conectar($consRegistradas); //Se ejecuta la consulta.
-                    $this->Conceptos[0] = @mysqli_num_rows($dsConsulta);
-                        
+                    if(@mysqli_num_rows($dsConsulta)>0){$this->Conceptos[0] = @mysqli_num_rows($dsConsulta);}else{$this->zeroControll+=1;}
+                    
+                    //Se obtienen el conteo de Canalizadas.
+                    $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $dsConsulta = $objConexion -> conectar($consCanalizadas); //Se ejecuta la consulta.
+                    if(@mysqli_num_rows($dsConsulta)>0){$this->Conceptos[1] = @mysqli_num_rows($dsConsulta);}else{$this->zeroControll+=1;}
+                    
                     //Se obtienen el conteo de En Proceso.
                     $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
                     $dsConsulta = $objConexion -> conectar($consEnProceso); //Se ejecuta la consulta.
-                    $this->Conceptos[1] = @mysqli_num_rows($dsConsulta);
+                    if(@mysqli_num_rows($dsConsulta)>0){$this->Conceptos[2] = @mysqli_num_rows($dsConsulta);}else{$this->zeroControll+=1;}
                         
                     //Se obtienen el conteo de Procesadas.
                     $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
                     $dsConsulta = $objConexion -> conectar($consProcesadas); //Se ejecuta la consulta.
-                    $this->Conceptos[2] = @mysqli_num_rows($dsConsulta);
+                    if(@mysqli_num_rows($dsConsulta)>0){$this->Conceptos[3] = @mysqli_num_rows($dsConsulta);}else{$this->zeroControll+=1;}
                         
                     //Se obtienen el conteo de Canceladas.
                     $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
                     $dsConsulta = $objConexion -> conectar($consCanceladas); //Se ejecuta la consulta.
-                    $this->Conceptos[3] = @mysqli_num_rows($dsConsulta);
+                    if(@mysqli_num_rows($dsConsulta)>0){$this->Conceptos[4] = @mysqli_num_rows($dsConsulta);}else{$this->zeroControll+=1;}
                     }
 
             public function graficador()
@@ -83,7 +98,7 @@
                      * Esta funcion genera un grafico de barras apartir de un vector de datos provisto
                      * por una consulta del usuario.
                      */
-                    $this->obtenerDatos();                                    
+                                    
                     $grafico = new PieGraph(1000,500); //Se crea la instancia del objeto de grafico.
                         
                     /*
@@ -117,5 +132,17 @@
             }       
             
     $objGraficador = new dalGraficaCircular();
-    $objGraficador->graficador(); //Llamada a la función de graficación.    
+
+    $objGraficador->obtenerDatos(); //Obtencion de datos para el graficado.
+    
+    if($objGraficador->getZeroControll() == 5)
+        {
+            //En caso de ocurrir un error de valores vacios.
+            echo "<b>VALORES INSUFICIENTES PARA GRAFICAR</b>";
+            }
+    else
+        {
+            //En caso de contar con informacion suficiente para graficar.
+            $objGraficador->graficador(); //Llamada a la función de graficación.
+            }        
 ?>

@@ -63,6 +63,12 @@
 					//En caso de no ocurrir un error de validación, se asigna el valor de paso.
 					error = error+1;			            	
 					}
+
+            if(document.getElementById("idPuesto").value.toString() == "-1")
+				{
+					//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+					error = error+1;			            	
+					}
             
             if(document.getElementById("fNacimiento").value.toString() == "")
             	{
@@ -114,6 +120,7 @@
 			document.getElementById('nExt').disabled = false;
 			document.getElementById('emp_cbidColonia').disabled = false;
 			document.getElementById('idEntidad').disabled = false;
+			document.getElementById('idPuesto').disabled = false;
 			document.getElementById('telFijo').disabled = false;
 			document.getElementById('telCel').disabled = false;
 			document.getElementById('emp_Guardar').style.display="block";
@@ -367,7 +374,7 @@
     				            			if(result)
     				            				{
     				            					//EL USUARIO DECIDE ALMACENAR LOS DATOS.
-    				            					guardarEmpleado('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+document.getElementById('idEmpleado').value.toString()+'&paterno='+document.getElementById('Paterno').value.toString()+'&materno='+document.getElementById('Materno').value.toString()+'&nombre='+document.getElementById('Nombre').value.toString()+'&fnacimiento='+document.getElementById('fNacimiento').value.toString()+'&curp='+document.getElementById('curp').value.toString()+'&rfc='+document.getElementById('rfc').value.toString()+'&calle='+document.getElementById('Calle').value.toString()+'&nint='+document.getElementById('nInt').value.toString()+'&next='+document.getElementById('nExt').value.toString()+'&idcolonia='+document.getElementById('emp_cbidColonia').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&telfijo='+document.getElementById('telFijo').value.toString()+'&telcel='+document.getElementById('telCel').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
+    				            					guardarEmpleado('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+document.getElementById('idEmpleado').value.toString()+'&paterno='+document.getElementById('Paterno').value.toString()+'&materno='+document.getElementById('Materno').value.toString()+'&nombre='+document.getElementById('Nombre').value.toString()+'&fnacimiento='+document.getElementById('fNacimiento').value.toString()+'&curp='+document.getElementById('curp').value.toString()+'&rfc='+document.getElementById('rfc').value.toString()+'&calle='+document.getElementById('Calle').value.toString()+'&nint='+document.getElementById('nInt').value.toString()+'&next='+document.getElementById('nExt').value.toString()+'&idcolonia='+document.getElementById('emp_cbidColonia').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&idpuesto='+document.getElementById('idPuesto').value.toString()+'&telfijo='+document.getElementById('telFijo').value.toString()+'&telcel='+document.getElementById('telCel').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
     				            					}			            					
     				            			}
     				        		});			        		
@@ -404,3 +411,19 @@
 								}	    			
 						});                 
 				});
+	
+/*
+ * El presente segmento de codigo evalua la accion de click sobre cualquier elemento con el id buscar_#
+ * para ejecutar la acción de actualización sobre el registro de una rejilla de datos.
+ */
+	$(document).ready(function()
+		{
+	    	$("div").change(function(e){
+	    	e.stopPropagation();
+	    	if(e.target.id == "idEntidad")
+	    		{
+	    			//Si el usuario confirma su solicitud de borrar el registro seleccionado.    			
+	    			cargarSync('./php/frontend/empleados/comp/idPuesto.class.php','?identidad='+document.getElementById('idEntidad').value.toString()+'&habilitador=disabled','divCBPuestos');
+	    			}
+	    });                 
+	});	

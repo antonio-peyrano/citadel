@@ -54,5 +54,4 @@
             
     $objidColonias = new idColonias();
     echo json_encode($objidColonias->cargarColonias(),JSON_UNESCAPED_UNICODE);
-    //var_dump($objidColonias->cargarColonias());
 ?>

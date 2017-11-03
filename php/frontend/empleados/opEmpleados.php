@@ -62,60 +62,7 @@
                      $dataset = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
                      $Registro = @mysqli_fetch_array($dataset,MYSQLI_ASSOC);
                      return $Registro['Colonia'];
-                    }
-                    
-            public function cargarEntidades()
-                {
-                    /*
-                     * Esta funcion establece la carga del conjunto de registros de entidades.
-                     */
-                    global $username, $password, $servername, $dbname;
-                        
-                    $objConexion = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
-                    $consulta = 'SELECT idEntidad, Entidad FROM catEntidades WHERE Status=0'; //Se establece el modelo de consulta de datos.
-                    $dataset = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
-                    return $dataset;
-                    }
-                    
-            public function drawCBEntidad($Registro, $habilitador)
-                {
-                    /*
-                     * Esta funcion crea el codigo HTML que corresponde al combobox de
-                     * entidad.
-                     */
-                    $HTML = '<tr><td class="td-panel" width="100px" colspan="3">Entidad: <select class="inputform" name= "idEntidad" id= "idEntidad" value= "-1"'.$habilitador.'>
-                                <option value=-1>Seleccione</option>';
-                        
-                    $subconsulta = $this->cargarEntidades();
-                    $RegCedulas = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
-                        
-                    if($Registro['idEntidad'] == '-2')
-                        {
-                            $HTML .= '<option value=-2 selected>Global</option>';
-                            }
-                    else
-                        {
-                            $HTML .= '<option value=-2>Global</option>';
-                            }
-                        
-                    while($RegCedulas)
-                        {
-                            if($Registro['idEntidad'] == $RegCedulas['idEntidad'])
-                                {
-                                    //Si el item fue previamente marcado, se selecciona en el codigo.
-                                    $HTML .= '<option value='.$RegCedulas['idEntidad'].' selected>'.$RegCedulas['Entidad'].'</option>';
-                                    }
-                            else
-                                {
-                                    //En caso contrario se escribe la secuencia base de codigo.
-                                    $HTML .= '<option value='.$RegCedulas['idEntidad'].'>'.$RegCedulas['Entidad'].'</option>';
-                                    }
-                            $RegCedulas = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
-                            }
-                        
-                    $HTML .= '</select></td></tr>';
-                    return $HTML;
-                    }
+                    }                   
                     
             public function drawUI()
                 {
@@ -176,7 +123,9 @@
                                                         <tr><td class="td-panel" width="100px">Telefono: <input class="inputform" id= "telFijo" type= "text" '.$habCampos.' value= "'.$RegEmpleado['telFijo'].'"></td>
                                                             <td class="td-panel" width="100px">Celular:  <input class="inputform" id= "telCel" type= "text" '.$habCampos.' value= "'.$RegEmpleado['telCel'].'"></td>
                                                         </tr>'
-                                                            .$this->drawCBEntidad($RegEmpleado, $habCampos).       
+                                                            .$objEmpleados->drawCBEntidad($RegEmpleado, $habCampos).
+                                                            '<td class="td-panel" width="100px">Puesto: <div id="divCBPuestos">'.$objEmpleados->drawCBPuesto($RegEmpleado, $habCampos).'</div></td>
+                                                        </tr>'.
                                                     '</table>                                   
                                                 </div>                                                    
                                                 <div id="pie" class="pie-operativo">'.$objEmpleados->controlBotones("32", "32", $this->getView()).'</div>                                                                                                                                                                                   

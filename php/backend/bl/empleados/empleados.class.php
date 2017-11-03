@@ -155,6 +155,98 @@
             //FIN DE DECLARACION DE PROCEDIMIENTOS APLICABLES AL MODULO catEmpleados.php
             
             //PROCEDIMIENTOS APLICABLES AL MODULO opEmplados.php.
+
+            public function cargarEntidades()
+                {
+                    /*
+                     * Esta funcion establece la carga del conjunto de registros de entidades.
+                     */
+                    global $username, $password, $servername, $dbname;
+                        
+                    $objConexion = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $consulta = 'SELECT idEntidad, Entidad FROM catEntidades WHERE Status=0'; //Se establece el modelo de consulta de datos.
+                    $dataset = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
+                    return $dataset;
+                    }
+
+            public function cargarPuestos($idEntidad)
+                {
+                    /*
+                     * Esta funcion establece la carga del conjunto de registros de puestos
+                     * asociados a la entidad proporcionada.
+                     */
+                    global $username, $password, $servername, $dbname;
+                        
+                    $objConexion = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $consulta = 'SELECT catPuestos.idPuesto, Puesto FROM (catPuestos INNER JOIN opRelEntPst ON opRelEntPst.idPuesto = catPuestos.idPuesto) WHERE catPuestos.Status=0 AND opRelEntPst.idEntidad='.$idEntidad; //Se establece el modelo de consulta de datos.
+                    $dataset = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
+                    return $dataset;
+                    }
+                    
+            public function drawCBEntidad($Registro, $habilitador)
+                {
+                    /*
+                     * Esta funcion crea el codigo HTML que corresponde al combobox de
+                     * entidad.
+                     */
+                    $HTML = '<tr><td class="td-panel" width="100px">Entidad: <select class="inputform" name= "idEntidad" id= "idEntidad" value= "-1"'.$habilitador.'>
+                                <option value=-1>Seleccione</option>';
+                        
+                    $subconsulta = $this->cargarEntidades();
+                    $RegEntidades = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
+                                        
+                    while($RegEntidades)
+                        {
+                            if($Registro['idEntidad'] == $RegEntidades['idEntidad'])
+                                {
+                                    //Si el item fue previamente marcado, se selecciona en el codigo.
+                                    $HTML .= '<option value='.$RegEntidades['idEntidad'].' selected>'.$RegEntidades['Entidad'].'</option>';
+                                    }
+                            else
+                                {
+                                    //En caso contrario se escribe la secuencia base de codigo.
+                                    $HTML .= '<option value='.$RegEntidades['idEntidad'].'>'.$RegEntidades['Entidad'].'</option>';
+                                    }
+                                    
+                            $RegEntidades = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
+                            }
+                        
+                    $HTML .= '</select></td>';
+                    return $HTML;
+                    }
+
+            public function drawCBPuesto($Registro, $habilitador)
+                {
+                    /*
+                     * Esta funcion crea el codigo HTML que corresponde al combobox de
+                     * puestos.
+                     */
+                    $HTML = '<select class="inputform" name= "idPuesto" id= "idPuesto" value= "-1"'.$habilitador.'>
+                                <option value=-1>Seleccione</option>';
+                        
+                    $subconsulta = $this->cargarPuestos($Registro['idEntidad']);
+                    $RegPuestos = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
+                        
+                    while($RegPuestos)
+                        {
+                            if($Registro['idPuesto'] == $RegPuestos['idPuesto'])
+                                {
+                                    //Si el item fue previamente marcado, se selecciona en el codigo.
+                                    $HTML .= '<option value='.$RegPuestos['idPuesto'].' selected>'.$RegPuestos['Puesto'].'</option>';
+                                    }
+                            else
+                                {
+                                    //En caso contrario se escribe la secuencia base de codigo.
+                                    $HTML .= '<option value='.$RegPuestos['idPuesto'].'>'.$RegPuestos['Puesto'].'</option>';
+                                    }
+                            
+                            $RegPuestos = @mysqli_fetch_array($subconsulta,MYSQLI_ASSOC);
+                            }
+                        
+                    $HTML .= '</select>';
+                    return $HTML;
+                    }
+                    
             public function getRegistro($idRegistro)
                 {
                     /*

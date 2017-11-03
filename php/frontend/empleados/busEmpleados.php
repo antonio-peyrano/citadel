@@ -37,7 +37,7 @@
                                 <table class="queryTable" colspan= "7">
                                     <tr><td class= "queryRowsnormTR" width ="180">Por apellido paterno: </td><td class= "queryRowsnormTR" width= "250"><input type= "text" id= "buspaterno"></td><td rowspan= "5"><img id="'.$this->Sufijo.'buscar" align= "left" src= "./img/grids/view.png" width= "25" height= "25" alt="Buscar"/></td></tr>
                                     <tr><td class= "queryRowsnormTR">Por apellido materno: </td><td class= "queryRowsnormTR"><input type= "text" id= "busmaterno"></td><td></td></tr>
-                                    <tr><td class= "queryRowsnormTR">Por nombre del cliente: </td><td class= "queryRowsnormTR"><input type= "text" id= "busnombre"></td><td></td></tr>
+                                    <tr><td class= "queryRowsnormTR">Por nombre del empleado: </td><td class= "queryRowsnormTR"><input type= "text" id= "busnombre"></td><td></td></tr>
                                     <tr><td class= "queryRowsnormTR">Por CURP: </td><td class= "queryRowsnormTR"><input type= "text" id= "buscurp"></td><td></td></tr>
                                     <tr><td class= "queryRowsnormTR">Por RFC: </td><td class= "queryRowsnormTR"><input type= "text" id= "busrfc"></td><td></td></tr>
                                 </table>

@@ -24,6 +24,7 @@
             private $idEmpleado = NULL;
             private $idColonia = NULL;
             private $idEntidad = NULL;
+            private $idPuesto = NULL;
             private $Paterno = '';
             private $Materno = '';
             private $Nombre = '';
@@ -50,6 +51,7 @@
                     if(isset($_GET['accion'])){$this->Accion = $_GET['accion'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['id'])){$this->idEmpleado = $_GET['id'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['identidad'])){$this->idEntidad = $_GET['identidad'];}else{$this->cntrlVar+=1;}
+                    if(isset($_GET['idpuesto'])){$this->idPuesto = $_GET['idpuesto'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['idcolonia']))
                         {
                             $substr= explode("-",$_GET['idcolonia']);
@@ -95,13 +97,13 @@
                             if($this->idEmpleado != NULL)
                                 {
                                     //EDICION DE REGISTRO                                    
-                                    $consulta = 'UPDATE catEmpleados SET Paterno=\''.$this->Paterno.'\', Materno=\''.$this->Materno.'\', Nombre=\''.$this->Nombre.'\', curp=\''.$this->curp.'\', rfc=\''.$this->rfc.'\', Calle=\''.$this->Calle.'\', nInt=\''.$this->nInt.'\', nExt=\''.$this->nExt.'\', idColonia=\''.$this->idColonia.'\', telFijo=\''.$this->telFijo.'\', telCel=\''.$this->telCel.'\', idEntidad=\''.$this->idEntidad.'\', Status=\''.$this->Status.'\', fNacimiento=\''.$this->fNacimiento.'\' where idEmpleado='.$this->idEmpleado; //Se establece el modelo de consulta de datos.
+                                    $consulta = 'UPDATE catEmpleados SET Paterno=\''.$this->Paterno.'\', Materno=\''.$this->Materno.'\', Nombre=\''.$this->Nombre.'\', curp=\''.$this->curp.'\', rfc=\''.$this->rfc.'\', Calle=\''.$this->Calle.'\', nInt=\''.$this->nInt.'\', nExt=\''.$this->nExt.'\', idColonia=\''.$this->idColonia.'\', telFijo=\''.$this->telFijo.'\', telCel=\''.$this->telCel.'\', idEntidad=\''.$this->idEntidad.'\', idPuesto=\''.$this->idPuesto.'\', Status=\''.$this->Status.'\', fNacimiento=\''.$this->fNacimiento.'\' where idEmpleado='.$this->idEmpleado; //Se establece el modelo de consulta de datos.
                                     $dsUsuario = $objConexion->conectar($consulta); //Se ejecuta la consulta.                                        
                                     }
                             else
                                 {
                                     //CREACION DE REGISTRO.                                    
-                                    $consulta = 'INSERT INTO catEmpleados (Paterno, Materno, Nombre, curp, rfc, telFijo, telCel, fNacimiento, Calle, nInt, nExt, idColonia, idEntidad) VALUES ('.'\''.$this->Paterno.'\',\''.$this->Materno.'\', \''.$this->Nombre.'\', \''.$this->curp.'\', \''.$this->rfc.'\', \''.$this->telFijo.'\', \''.$this->telCel.'\', \''.$this->fNacimiento.'\', \''.$this->Calle.'\', \''.$this->nInt.'\', \''.$this->nExt.'\', \''.$this->idColonia.'\', \''.$this->idEntidad.'\')'; //Se establece el modelo de consulta de datos.
+                                    $consulta = 'INSERT INTO catEmpleados (Paterno, Materno, Nombre, curp, rfc, telFijo, telCel, fNacimiento, Calle, nInt, nExt, idColonia, idEntidad, idPuesto) VALUES ('.'\''.$this->Paterno.'\',\''.$this->Materno.'\', \''.$this->Nombre.'\', \''.$this->curp.'\', \''.$this->rfc.'\', \''.$this->telFijo.'\', \''.$this->telCel.'\', \''.$this->fNacimiento.'\', \''.$this->Calle.'\', \''.$this->nInt.'\', \''.$this->nExt.'\', \''.$this->idColonia.'\', \''.$this->idEntidad.'\', \''.$this->idPuesto.'\')'; //Se establece el modelo de consulta de datos.
                                     $dsUsuario = $objConexion -> conectar($consulta); //Se ejecuta la consulta.                    
                                     }    
                             include_once($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/empleados/busEmpleados.php");                                                    
