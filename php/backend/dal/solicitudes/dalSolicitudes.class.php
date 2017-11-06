@@ -9,6 +9,9 @@
  * adjunta de la licencia en todo momento.
  * Licencia: http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
+    require_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/utilidades/mailsupport/class.phpmailer.php");
+    require_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/utilidades/mailsupport/class.phpmailer.php");
+    require_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/utilidades/mailsupport/class.smtp.php");
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/utilidades/captcha.class.php");//Se carga la referencia a la clase de manejo de captcha.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/config.php"); //Se carga la referencia de los atributos de configuracion.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/dal/main/conectividad.class.php"); //Se carga la referencia a la clase de conectividad.
@@ -19,6 +22,15 @@
              * Esta clase contiene los atributos y procedimientos para la gestion de los datos
              * correspondientes a la entidad solicitudes.
              */
+            private $srvCorreo = "soporte.peyrano@gmail.com";
+            private $srvClave = "abadiaroja";
+            
+            private $RACNombre = "";  //Nombre del Responsable de Atencion a Cliente.
+            private $RACMail = ""; //Correo del Responsable de Atencion a Cliente.
+            private $RACEntidad = ""; //Entidad a la que esta adscrito el RAC.
+            private $Cliente = ""; //Nombre del Cliente.
+            private $Correo = ""; //Correo del Cliente.
+            
             private $Accion = '';
             private $cntrlVar = 0;
             private $idSolicitud = NULL;
@@ -59,6 +71,149 @@
                     if(isset($_GET['status'])){$this->Status = $_GET['status'];}else{$this->cntrlVar+=1;}            
                     }
 
+            public function buscarRAC()
+                {
+                    /*
+                     * Esta funcion ejecuta la busqueda del usuario en el sistema
+                     * apartir de los datos proporcionados en la interfaz de solicitud.
+                     */
+                    global $username, $password, $servername, $dbname;
+                        
+                    $objConexion = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $consulta = 'SELECT idEmpleado, CONCAT(Nombre,\' \',Paterno,\' \',Materno) AS Nombre, Correo FROM catEmpleados WHERE idEntidad=\''.$this->idEntidad.'\''.' AND esRAC = \'1\''; //Se establece el modelo de consulta de datos.
+                    $dsEmpleados = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
+                        
+                    $RegEmpleados = @mysqli_fetch_array($dsEmpleados,MYSQLI_ASSOC);
+                        
+                    if($RegEmpleados)
+                        {
+                            //Solo si existe un registro con el correo solicitado.
+                            $this->RACNombre = $RegEmpleados['Nombre'];
+                            $this->RACMail = $RegEmpleados['Correo'];
+                            }
+                    }
+            
+            public function getSTRStatus($Status)
+                {
+                    //Esta funcion retorna la cadena correspondiente al codigo de Status.
+                    if($Status == '0'){return "Registrada";}
+                    if($Status == '1'){return "Canalizada";}
+                    if($Status == '2'){return "En Proceso";}
+                    if($Status == '3'){return "Procesada";}
+                    if($Status == '4'){return "Cancelada";}
+                    }
+            
+            public function getSTREntidad($idEntidad)
+                {
+                    //Esta funcion retorna el nombre de la entidad para el ID proporcionado.
+                    global $username, $password, $servername, $dbname;
+                    
+                    $objConexion = new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $consulta = 'SELECT idEntidad, Entidad FROM catEntidades WHERE idEntidad=\''.$idEntidad.'\''; //Se establece el modelo de consulta de datos.
+                    $dsEntidad = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
+                    
+                    $RegEntidad = @mysqli_fetch_array($dsEntidad,MYSQLI_ASSOC);
+                    
+                    if($RegEntidad)
+                        {
+                            //Solo si existe un registro con el correo solicitado.
+                            $this->RACEntidad = $RegEntidad['Entidad'];
+                            }
+                    }
+                    
+            public function enviarCorreo($Status)
+                {
+                    /*
+                     * Esta funcion genera los parametros para el envio del correo de recordatorio
+                     * de clave para el usuario solicitante.
+                     */                        
+                    $this->buscarRAC();
+                    $this->buscarUsuario();
+                    
+                    $mail = new PHPMailer(); //Se declara la instancia de objeto de manejo de correo.
+                    $mail->IsSMTP();
+                    $mail->CharSet = 'UTF-8';
+                    $mail->SMTPAuth = true;
+                    //$mail->SMTPSecure = "ssl";
+                    $mail->Host = "smtp.gmail.com"; //servidor smtp
+                    $mail->Port = 587; //puerto smtp de gmail
+                    $mail->Username = $this->srvCorreo;
+                    $mail->Password = $this->srvClave;
+                    $mail->FromName = 'Soporte Tecnico a Usuario';
+                    $mail->From = $this->srvCorreo;//email de remitente desde donde se envia el correo.
+                    $mail->Subject = 'Estado de la Solicitud con FOLIO '.$this->Folio;
+                    $mail->AltBody = 'Estimado '.$this->Cliente;//cuerpo con texto plano
+                    
+                    $this->getSTREntidad($this->idEntidad);
+                    
+                    if($this->getSTRStatus($Status) == 'Registrada')
+                        {
+                            $mail->AddAddress($this->Correo, $this->Cliente); //destinatario que va a recibir el correo
+                            $HTMLMsg =  'Se le informa que la solicitud con No. de Folio: '. $this->Folio.'<br/>'.
+                                        'se encuentra en estado: '. $this->getSTRStatus($this->Status).'. <br/> Siendo la entidad: '.$this->RACEntidad.
+                                        ' la que gestionara y validara su solicitud.<br/>'.
+                                        '<br/>Atentamente<br/> El soporte tecnico de Citadel';
+                            }
+                    else
+                        {
+                            if(($this->getSTRStatus($Status) == 'Canalizada')||($this->getSTRStatus($Status) == 'En Proceso'))
+                                {
+                                    $mail->AddAddress($this->Correo, $this->Cliente);//envia una copia del correo a la direccion especificada
+                                    $mail->AddCC($this->RACMail, $this->RACNombre); //destinatario que va a recibir el correo
+                                    $HTMLMsg =  'Se le informa que la solicitud con No. de Folio: '. $this->Folio.'<br/>'.
+                                                'se encuentra en estado: '. $this->getSTRStatus($this->Status).'. <br/> Siendo gestionada en este momento por la entidad: '.$this->RACEntidad.
+                                                ', para en breve darle un resultado al respecto.<br/>'.
+                                                '<br/>Atentamente<br/> El soporte tecnico de Citadel';
+                                    }
+                            else
+                                {
+                                    if($this->getSTRStatus($Status) == 'Procesada')
+                                        {
+                                            $mail->AddAddress($this->Correo, $this->Cliente);//envia una copia del correo a la direccion especificada
+                                            $mail->AddCC($this->RACMail, $this->RACNombre); //destinatario que va a recibir el correo
+                                            $HTMLMsg =  'Se le informa que la solicitud con No. de Folio: '. $this->Folio.'<br/>'.
+                                                        'ha sido '. $this->getSTRStatus($this->Status).' por la entidad: '.$this->RACEntidad.
+                                                        '<br/>Atentamente<br/> El soporte tecnico de Citadel';
+                                            }
+                                    else
+                                        {
+                                            $mail->AddAddress($this->Correo, $this->Cliente);//envia una copia del correo a la direccion especificada
+                                            $mail->AddCC($this->RACMail, $this->RACNombre); //destinatario que va a recibir el correo
+                                            $HTMLMsg =  'Se le informa que la solicitud con No. de Folio: '. $this->Folio.'<br/>'.
+                                                        'ha sido '. $this->getSTRStatus($this->Status).' por la entidad: '.$this->RACEntidad.
+                                                        '; debido a detalles observados en su naturaleza.'.
+                                                        '<br/>Atentamente<br/> El soporte tecnico de Citadel';
+                                            }                                            
+                                    }
+                            }
+                                                                    
+                    $mail->MsgHTML($HTMLMsg);//cuerpo con html                        
+                    $mail->Send();
+                    }
+                    
+            public function buscarUsuario()
+                {
+                    /*
+                     * Esta funcion ejecuta la busqueda del usuario en el sistema
+                     * apartir de los datos proporcionados por el formulario de
+                     * recordatorio.
+                     */
+                    global $username, $password, $servername, $dbname;
+                        
+                    $objConexion= new mySQL_conexion($username, $password, $servername, $dbname); //Se crea el objeto de la clase a instanciar.
+                    $consulta= 'SELECT idUsuario, Usuario, Correo FROM catUsuarios WHERE idUsuario=\''.$this->idUsuario.'\''; //Se establece el modelo de consulta de datos.
+                    $dsUsuarios = $objConexion -> conectar($consulta); //Se ejecuta la consulta.
+                        
+                    $RegUsuarios = @mysqli_fetch_array($dsUsuarios,MYSQLI_ASSOC);
+                        
+                    if($RegUsuarios)
+                        {
+                            //Solo si existe un registro con el correo solicitado.
+                            $this->Cliente = $RegUsuarios['Usuario'];
+                            $this->Correo = $RegUsuarios['Correo'];
+                            }
+                    } 
+                    
             public function almacenarParametros()
                 {
                     /*
@@ -105,7 +260,9 @@
                                             //CREACION DE REGISTRO.                                    
                                             $consulta = 'INSERT INTO opSolicitudes (Folio, Asunto, Detalle, idUsuario, idEntidad, fRegistro) VALUES ('.'\''.$this->Folio.'\',\''.$this->Asunto.'\', \''.$this->Detalle.'\', \''.$this->idUsuario.'\', \''.$this->idEntidad.'\', \''.$this->fRegistro.'\')'; //Se establece el modelo de consulta de datos.
                                             $dsSolicitud = $objConexion -> conectar($consulta); //Se ejecuta la consulta.                    
-                                            }                                                
+                                            }      
+                                            
+                                    $this->enviarCorreo($this->Status);        
                                     include_once($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/solicitudes/busSolicitudes.php");
                                     }
                             else

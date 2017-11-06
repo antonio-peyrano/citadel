@@ -246,6 +246,43 @@
                     $HTML .= '</select>';
                     return $HTML;
                     }
+
+            public function drawCBRAC($Registro, $habilitador)
+                {
+                    /*
+                     * Esta funcion crea el codigo HTML que corresponde al combobox de
+                     * puestos.
+                     */
+                    $HTML = '<tr><td class="td-panel" width="100px">RAC: <select class="inputform" name= "esRAC" id= "esRAC" value= "-1"'.$habilitador.'>';
+                        
+                    if($Registro['esRAC'] == 1)
+                        {
+                            //Si el empleado es un Responsable de Atencion a Cliente.
+                            $HTML .= '<option value=-1>Seleccione</option>';
+                            $HTML .= '<option value="0">No</option>';
+                            $HTML .= '<option value="1" selected>Si</option>';
+                            }
+                    else
+                        {
+                            if($Registro['esRAC'] == 0)
+                                {
+                                    //Si el empleado no es un Responsable de Atencion al Cliente.
+                                    $HTML .= '<option value=-1>Seleccione</option>';
+                                    $HTML .= '<option value="0" selected>No</option>';
+                                    $HTML .= '<option value="1">Si</option>';
+                                    }
+                            else
+                                {
+                                    //En defecto.
+                                    $HTML .= '<option value=-1 selected>Seleccione</option>';
+                                    $HTML .= '<option value="0">No</option>';
+                                    $HTML .= '<option value="1">Si</option>';
+                                    }
+                            }
+                        
+                    $HTML .= '</select></td>';
+                    return $HTML;
+                    }
                     
             public function getRegistro($idRegistro)
                 {

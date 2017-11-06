@@ -87,7 +87,19 @@
         			//En caso de no ocurrir un error de validación, se asigna el valor de paso.
         			error = error+1;			            	
     				}
-                                
+
+            if(document.getElementById("esRAC").value.toString() == "-1")
+				{
+					//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+					error = error+1;			            	
+					}
+            
+            if(!validarCorreo(document.getElementById("Correo").value.toString()))
+        		{
+            		//En caso de no ocurrir un error de validación, se asigna el valor de paso.
+            		error = error+1;			            	
+        			}
+            
             if(error > 0)
                 {
                     /*
@@ -103,6 +115,16 @@
                     cargar(url,parametro,'sandbox');
                     }
             }
+    
+    function validarCorreo(correo) 
+		{
+			/*
+			 * Esta funcion evalua una cadena de texto apartir de una expresion regular
+			 * y verifica si el formato es consistente con una direccion de correo.
+			 */
+			expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			return expr.test(correo);        		
+			}
     
     function habEmpleado()
 		{
@@ -123,6 +145,8 @@
 			document.getElementById('idPuesto').disabled = false;
 			document.getElementById('telFijo').disabled = false;
 			document.getElementById('telCel').disabled = false;
+			document.getElementById('Correo').disabled = false;
+			document.getElementById('esRAC').disabled = false;
 			document.getElementById('emp_Guardar').style.display="block";
 			document.getElementById('emp_Borrar').style.display="none";
 			document.getElementById('emp_Editar').style.display="none";
@@ -374,7 +398,7 @@
     				            			if(result)
     				            				{
     				            					//EL USUARIO DECIDE ALMACENAR LOS DATOS.
-    				            					guardarEmpleado('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+document.getElementById('idEmpleado').value.toString()+'&paterno='+document.getElementById('Paterno').value.toString()+'&materno='+document.getElementById('Materno').value.toString()+'&nombre='+document.getElementById('Nombre').value.toString()+'&fnacimiento='+document.getElementById('fNacimiento').value.toString()+'&curp='+document.getElementById('curp').value.toString()+'&rfc='+document.getElementById('rfc').value.toString()+'&calle='+document.getElementById('Calle').value.toString()+'&nint='+document.getElementById('nInt').value.toString()+'&next='+document.getElementById('nExt').value.toString()+'&idcolonia='+document.getElementById('emp_cbidColonia').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&idpuesto='+document.getElementById('idPuesto').value.toString()+'&telfijo='+document.getElementById('telFijo').value.toString()+'&telcel='+document.getElementById('telCel').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
+    				            					guardarEmpleado('./php/backend/dal/empleados/dalEmpleados.class.php','?id='+document.getElementById('idEmpleado').value.toString()+'&paterno='+document.getElementById('Paterno').value.toString()+'&materno='+document.getElementById('Materno').value.toString()+'&nombre='+document.getElementById('Nombre').value.toString()+'&fnacimiento='+document.getElementById('fNacimiento').value.toString()+'&curp='+document.getElementById('curp').value.toString()+'&rfc='+document.getElementById('rfc').value.toString()+'&calle='+document.getElementById('Calle').value.toString()+'&nint='+document.getElementById('nInt').value.toString()+'&next='+document.getElementById('nExt').value.toString()+'&idcolonia='+document.getElementById('emp_cbidColonia').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&idpuesto='+document.getElementById('idPuesto').value.toString()+'&telfijo='+document.getElementById('telFijo').value.toString()+'&telcel='+document.getElementById('telCel').value.toString()+'&correo='+document.getElementById('Correo').value.toString()+'&esrac='+document.getElementById('esRAC').value.toString()+'&status='+document.getElementById('Status').value.toString()+'&accion=CoER');
     				            					}			            					
     				            			}
     				        		});			        		

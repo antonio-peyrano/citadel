@@ -15,7 +15,8 @@
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/bl/utilidades/jpgraph/src/jpgraph_pie3d.php"); //Se carga la referencia a la clase especifica de grafica de pay.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/dal/main/conectividad.class.php"); //Se carga la referencia a la clase de conectividad.
     include_once ($_SERVER['DOCUMENT_ROOT']."/citadel/php/backend/config.php"); //Se carga la referencia de los atributos de configuración.
-
+    header('Content-Type: image/png');
+    
     class dalGraficaCircular
         {
             private $idEntidad = '';
@@ -23,7 +24,13 @@
             private $Identificador = '';
             private $Conceptos = array (0.00, 0.00, 0.00, 0.00, 0.00);
             private $Leyendas = array('Registradas','Canalizadas', 'En Proceso','Procesadas','Canceladas');
-                         
+            
+            //Atributos para la gestion de errores en el procesamiento de datos.
+            private $fontname;
+            private $textArray = array("Datos insuficientes para procesar", "Error con la conectividad de la BD", 'Fallo critico, contactar con el administrador'); //Listado de posibles mensajes.
+            private $letra; //Estilo de letra y tamaño.
+            private $text;
+            
             public function __construct()
                 {
                     /*
@@ -92,6 +99,52 @@
                     if(@mysqli_num_rows($dsConsulta)>0){$this->Conceptos[4] = @mysqli_num_rows($dsConsulta);}else{$this->zeroControll+=1;}
                     }
 
+            public function dimensions($ldef, $texto)
+                {
+                    /*
+                     * Esta funcion establece los parametros de dimensiones para
+                     * el texto a visualizar como imagen.
+                     */
+                    //Calculo del ancho de la imagen a partir de la longitud del texto.
+                    $box = imagettfbbox ($ldef['size'], 0, $ldef['font'], $texto);
+                    $width = abs(abs($box[2]) - abs($box[0]));
+                        
+                    //Calculo del alto del texto a partir del tamaño de la fuente y su estilo.
+                    $box = imagettfbbox ($ldef['size'], 0, $ldef['font'], 'ILyjgq'); // Tiene caracteres que no terminan en la baseline
+                    $height = abs($box[7] - $box[1]);                        
+                    $baseline = abs($box[5]);
+                        
+                    return array($width, $height, $baseline);
+                    }
+                    
+            public function msgError()
+                {
+                    //Creamos la imagen, calculando primero sus dimensiones dependiendo del tamaño del texto.
+                    $fontname = $_SERVER['DOCUMENT_ROOT'].'/citadel/fonts/LinLibertine_Bd.ttf';
+                    $this->textArray = array("Datos insuficientes para procesar", "Error con la conectividad de la BD", 'Fallo critico, contactar con el administrador'); //Listado de posibles mensajes.
+                    $this->letra = array ('font'  => $fontname, 'size'  => 30, 'color' => array(255,255,255),); //Estilo de letra y tamaño.
+                    
+                    $this->text = $this->textArray[0];
+                    $box_size = $this->dimensions($this->letra, $this->text);
+                    $Imagen = imagecreatetruecolor($box_size[0], $box_size[1]);
+                    
+                    //Creamos dos colores, y definimos el color que actuará como transparente
+                    $background = imagecolorallocate($Imagen, 204, 0, 0);
+                    $fontColor  = imagecolorallocate($Imagen, $this->letra['color'][0], $this->letra['color'][1], $this->letra['color'][2]);
+                    //imagecolortransparent($Imagen, $background);
+                    
+                    //Ponemos el fondo de la imagen transparente
+                    imagefilledrectangle($Imagen, 0, 0, $box_size[0], $box_size[1], $background);
+                    
+                    
+                    //Creamos el texto
+                    imagettftext($Imagen, $this->letra['size'], 0, 0, $box_size[2], $fontColor, $this->letra['font'], $this->text);
+                    
+                    //Generamos la salida
+                    imagepng($Imagen);
+                    imagedestroy($Imagen);
+                    }
+                    
             public function graficador()
                 {
                     /*
@@ -110,7 +163,7 @@
                         
                     //Ajuste sobre el formato general del grafico.
                     $grafico->title->Set("Relacion de Atencion a Solicitudes para ". $this->Identificador);
-                    $grafico->title->SetFont(FF_FONT2,FS_BOLD,12);
+                    $grafico->title->SetFont(FF_ARIAL,FS_BOLD,12);
                     $grafico->title->SetColor('white');
                     $grafico->SetColor('#A4A4A4');
                         
@@ -122,7 +175,7 @@
                     $p1->SetLegends($this->Leyendas);
                         
                     //Ajuste sobre el aspecto visual de los valores.
-                    $p1->value->SetFont(FF_FONT1,FS_BOLD);
+                    $p1->value->SetFont(FF_ARIAL,FS_BOLD);
                     $p1->value->SetColor('white');
                     $p1->SetLabelPos(0.6);
                         
@@ -138,7 +191,7 @@
     if($objGraficador->getZeroControll() == 5)
         {
             //En caso de ocurrir un error de valores vacios.
-            echo "<b>VALORES INSUFICIENTES PARA GRAFICAR</b>";
+            $objGraficador->msgError();
             }
     else
         {

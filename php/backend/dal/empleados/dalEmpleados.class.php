@@ -36,6 +36,8 @@
             private $fNacimiento = '';
             private $telFijo = '';
             private $telCel = '';
+            private $Correo = '';
+            private $esRAC = 0;
             private $Status = 0;
             private $cntView = 0;
 
@@ -77,6 +79,8 @@
                     if(isset($_GET['next'])){$this->nExt = $_GET['next'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['telfijo'])){$this->telFijo = $_GET['telfijo'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['telcel'])){$this->telCel = $_GET['telcel'];}else{$this->cntrlVar+=1;}
+                    if(isset($_GET['correo'])){$this->Correo = $_GET['correo'];}else{$this->cntrlVar+=1;}
+                    if(isset($_GET['esrac'])){$this->esRAC = $_GET['esrac'];}else{$this->cntrlVar+=1;}
                     if(isset($_GET['status'])){$this->Status = $_GET['status'];}else{$this->cntrlVar+=1;}            
                     }
 
@@ -97,13 +101,13 @@
                             if($this->idEmpleado != NULL)
                                 {
                                     //EDICION DE REGISTRO                                    
-                                    $consulta = 'UPDATE catEmpleados SET Paterno=\''.$this->Paterno.'\', Materno=\''.$this->Materno.'\', Nombre=\''.$this->Nombre.'\', curp=\''.$this->curp.'\', rfc=\''.$this->rfc.'\', Calle=\''.$this->Calle.'\', nInt=\''.$this->nInt.'\', nExt=\''.$this->nExt.'\', idColonia=\''.$this->idColonia.'\', telFijo=\''.$this->telFijo.'\', telCel=\''.$this->telCel.'\', idEntidad=\''.$this->idEntidad.'\', idPuesto=\''.$this->idPuesto.'\', Status=\''.$this->Status.'\', fNacimiento=\''.$this->fNacimiento.'\' where idEmpleado='.$this->idEmpleado; //Se establece el modelo de consulta de datos.
+                                    $consulta = 'UPDATE catEmpleados SET Paterno=\''.$this->Paterno.'\', Materno=\''.$this->Materno.'\', Nombre=\''.$this->Nombre.'\', curp=\''.$this->curp.'\', rfc=\''.$this->rfc.'\', Calle=\''.$this->Calle.'\', nInt=\''.$this->nInt.'\', nExt=\''.$this->nExt.'\', idColonia=\''.$this->idColonia.'\', telFijo=\''.$this->telFijo.'\', telCel=\''.$this->telCel.'\', idEntidad=\''.$this->idEntidad.'\', idPuesto=\''.$this->idPuesto.'\', Status=\''.$this->Status.'\', fNacimiento=\''.$this->fNacimiento.'\', esRAC=\''.$this->esRAC.'\', Correo=\''.$this->Correo.'\' WHERE idEmpleado='.$this->idEmpleado; //Se establece el modelo de consulta de datos.
                                     $dsUsuario = $objConexion->conectar($consulta); //Se ejecuta la consulta.                                        
                                     }
                             else
                                 {
                                     //CREACION DE REGISTRO.                                    
-                                    $consulta = 'INSERT INTO catEmpleados (Paterno, Materno, Nombre, curp, rfc, telFijo, telCel, fNacimiento, Calle, nInt, nExt, idColonia, idEntidad, idPuesto) VALUES ('.'\''.$this->Paterno.'\',\''.$this->Materno.'\', \''.$this->Nombre.'\', \''.$this->curp.'\', \''.$this->rfc.'\', \''.$this->telFijo.'\', \''.$this->telCel.'\', \''.$this->fNacimiento.'\', \''.$this->Calle.'\', \''.$this->nInt.'\', \''.$this->nExt.'\', \''.$this->idColonia.'\', \''.$this->idEntidad.'\', \''.$this->idPuesto.'\')'; //Se establece el modelo de consulta de datos.
+                                    $consulta = 'INSERT INTO catEmpleados (Paterno, Materno, Nombre, curp, rfc, telFijo, telCel, fNacimiento, Calle, nInt, nExt, idColonia, idEntidad, idPuesto, Correo, esRAC) VALUES ('.'\''.$this->Paterno.'\',\''.$this->Materno.'\', \''.$this->Nombre.'\', \''.$this->curp.'\', \''.$this->rfc.'\', \''.$this->telFijo.'\', \''.$this->telCel.'\', \''.$this->fNacimiento.'\', \''.$this->Calle.'\', \''.$this->nInt.'\', \''.$this->nExt.'\', \''.$this->idColonia.'\', \''.$this->idEntidad.'\', \''.$this->idPuesto.'\', \''.$this->Correo.'\', \''.$this->esRAC.'\')'; //Se establece el modelo de consulta de datos.
                                     $dsUsuario = $objConexion -> conectar($consulta); //Se ejecuta la consulta.                    
                                     }    
                             include_once($_SERVER['DOCUMENT_ROOT']."/citadel/php/frontend/empleados/busEmpleados.php");                                                    

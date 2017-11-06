@@ -125,7 +125,7 @@
                                                         </tr>'
                                                             .$objEmpleados->drawCBEntidad($RegEmpleado, $habCampos).
                                                             '<td class="td-panel" width="100px">Puesto: <div id="divCBPuestos">'.$objEmpleados->drawCBPuesto($RegEmpleado, $habCampos).'</div></td>
-                                                        </tr>'.
+                                                        </tr>'.$objEmpleados->drawCBRAC($RegEmpleado, $habCampos).'<td class="td-panel" width="100px" colspan="2">Correo:  <input class="inputform" size="35" id= "Correo" type= "text" '.$habCampos.' value= "'.$RegEmpleado['Correo'].'"></td>'.
                                                     '</table>                                   
                                                 </div>                                                    
                                                 <div id="pie" class="pie-operativo">'.$objEmpleados->controlBotones("32", "32", $this->getView()).'</div>                                                                                                                                                                                   
