@@ -180,7 +180,7 @@
                     $p1->SetLabelPos(0.6);
                         
                     $grafico->Add($p1);
-                    $grafico->Stroke();
+                    $grafico->Stroke(); //Se puede establecer una ruta para almacenar la imagen.
                     }            
             }       
             

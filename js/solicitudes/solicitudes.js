@@ -73,7 +73,8 @@
 			document.getElementById('Status').disabled = false;
 			document.getElementById('idEntidad').disabled = false;
 			document.getElementById('sol_Guardar').style.display="block";
-			document.getElementById('sol_Adjuntar').style.display="block";
+			document.getElementById('sol_Adjuntar').style.display="block";									
+			document.getElementById('sol_ImprimirPDF').style.display="block";
 			document.getElementById('sol_Borrar').style.display="none";
 			document.getElementById('sol_Editar').style.display="none";
 			}
@@ -232,6 +233,38 @@
 			});
 
 //DECLARACION DE ACCIONES A EJECUTARSE SOBRE FORMULARIO OPERATIVO.
+
+/*
+ * El presente segmento de codigo evalua la accion de click sobre cualquier elemento con el id edit_#
+ * para ejecutar la acción de actualización sobre el registro de una rejilla de datos.
+ */
+    $(document).ready(function()
+    	{
+        	$("div").click(function(e)
+        		{
+        			e.stopPropagation();
+        			if(e.target.id == "sol_ImprimirPDF")
+        				{
+        					//En caso de coincidir el id con la accion editar.
+    	    				var visualizar = '';
+    	    				var w = 200;
+    	    				var h = 100;
+    	    			
+    	    				var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+    	    				var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+    	    			
+    	    		    	var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    	    		    	var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    	    		    	var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    	    		    	var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    	    		    	detalle = document.getElementById('Detalle').value.toString();
+    	    		    	detalle = detalle.replace(/\n/g,"<br>");
+        					window.open('./php/backend/dal/utilidades/reportes/repoDocSolicitud.class.php?folio='+document.getElementById('Folio').value.toString()+'&fregistro='+document.getElementById('fRegistro').value.toString()+'&asunto='+document.getElementById('Asunto').value.toString()+'&identidad='+document.getElementById('idEntidad').value.toString()+'&detalle='+detalle+'&idusuario='+document.getElementById('idUsuario').value.toString()+'&status='+document.getElementById('Status').value.toString(), "Formato para Impresion", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, toolbar=yes, tittlebar=no, width="+width.toString()+", height="+height.toString()+", top="+top.toString()+", left="+left.toString());
+        					}
+        			});                 
+    		});
+	    
 /*
  * El presente segmento de codigo evalua la accion de click sobre el elemento de retorno
  * pulsado sobre el formulario operativo.

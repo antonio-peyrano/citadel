@@ -221,6 +221,8 @@
                     $btnBorrar_V =    '<img align= "right" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/erase.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Borrar" id="'.$this->Sufijo.'Borrar" title= "Borrar"/>';
                     $btnSubirArchivo_V = '<img align= "right" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/uploads.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Adjuntar archivos" id="'.$this->Sufijo.'Adjuntar" title= "Adjuntar archivos"/>';
                     $btnSubirArchivo_H = '<img align= "right" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/uploads.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Adjuntar archivos" id="'.$this->Sufijo.'Adjuntar" title= "Adjuntar archivos" style="display:none;"/>';
+                    $btnImprimirPDF_V = '<img align= "right" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/getpdf.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Generar PDF" id="'.$this->Sufijo.'ImprimirPDF" title= "Generar PDF"/>';
+                    $btnImprimirPDF_H = '<img align= "right" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/getpdf.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Generar PDF" id="'.$this->Sufijo.'ImprimirPDF" title= "Generar PDF" style="display:none;"/>';
                     $btnGuardar_V =   '<img align= "right" class="btnConfirm" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/save.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Guardar" id="'.$this->Sufijo.'Guardar" title= "Guardar"/>';
                     $btnGuardar_H =   '<img align= "right" class="btnConfirm" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/save.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Guardar" id="'.$this->Sufijo.'Guardar" title= "Guardar" style="display:none;"/>';
                     $btnEditar_V =    '<img align= "right" onmouseover="bigImg(this)" onmouseout="normalImg(this)" src= "./img/grids/edit.png" width= "'.$Width.'" height= "'.$Height.'" alt= "Editar" id="'.$this->Sufijo.'Editar" title= "Editar"/>';
@@ -244,7 +246,7 @@
                                     if($cntView == 0)
                                         {
                                             //Para el caso de creaci�n de nuevo registro.
-                                            $botonera .= $btnSubirArchivo_V.$btnGuardar_V.$btnVolver_V;
+                                            $botonera .= $btnSubirArchivo_V.$btnImprimirPDF_V.$btnGuardar_V.$btnVolver_V;
                                             }
                                     else
                                         {
@@ -256,7 +258,7 @@
                                 {
                                     if($_SESSION['nivel'] == "Administrador")
                                         {
-                                            $botonera .= $btnSubirArchivo_V.$btnGuardar_V.$btnVolver_V;
+                                            $botonera .= $btnSubirArchivo_V.$btnImprimirPDF_V.$btnGuardar_V.$btnVolver_V;
                                             }
                                     }                                    
                             }
@@ -274,7 +276,7 @@
                                             if($idUsuario == $this->getIDUsuario())
                                                 {
                                                     //Si el registro fue creado por el usuario, se le permite el proceso de edicion.
-                                                    $botonera .= $btnEditar_V.$btnBorrar_V.$btnSubirArchivo_V.$btnGuardar_H.$btnVolver_V;
+                                                    $botonera .= $btnEditar_V.$btnBorrar_V.$btnSubirArchivo_V.$btnImprimirPDF_V.$btnGuardar_H.$btnVolver_V;
                                                     }
                                             else
                                                 {
@@ -287,7 +289,7 @@
                                         {
                                             if($_SESSION['nivel'] == "Administrador")
                                                 {
-                                                    $botonera .= $btnEditar_V.$btnBorrar_V.$btnSubirArchivo_V.$btnGuardar_H.$btnVolver_V;
+                                                    $botonera .= $btnEditar_V.$btnBorrar_V.$btnSubirArchivo_V.$btnImprimirPDF_V.$btnGuardar_H.$btnVolver_V;
                                                     }
                                             }                                    
                                     }
